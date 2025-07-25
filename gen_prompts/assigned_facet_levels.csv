@@ -1,0 +1,301 @@
+Full#,Short#,Sign,Key,Facet,Item,Original Level,Assigned Level
+1,1.0,+N1,N1,Anxiety,Worry about things.,low,low
+2,2.0,+E1,E1,Friendliness,Make friends easily.,med,med
+3,3.0,+O1,O1,Imagination,Have a vivid imagination.,med,med
+4,4.0,+A1,A1,Trust,Trust others.,med,med
+5,5.0,+C1,C1,Self-Efficacy,Complete tasks successfully.,high,high
+6,6.0,+N2,N2,Anger,Get angry easily.,low,low
+7,7.0,+E2,E2,Gregariousness,Love large parties.,med,med
+8,8.0,+O2,O2,Artistic Interests,Believe in the importance of art.,med,med
+99,9.0,-A2,A2,Morality,Use others for my own ends.,high,low
+40,10.0,+C2,C2,Orderliness,Like to tidy up.,high,high
+11,11.0,+N3,N3,Depression,Often feel blue.,low,low
+12,12.0,+E3,E3,Assertiveness,Take charge.,high,high
+13,13.0,+O3,O3,Emotionality,Experience my emotions intensely.,med,med
+74,14.0,+A3,A3,Altruism,Love to help others.,high,high
+45,15.0,+C3,C3,Dutifulness,Keep my promises.,high,high
+76,16.0,+N4,N4,Self-Consciousness,Find it difficult to approach others.,low,low
+17,17.0,+E4,E4,Activity Level,Am always busy.,med,med
+18,18.0,+O4,O4,Adventurousness,Prefer variety to routine.,med,med
+169,19.0,-A4,A4,Cooperation,Love a good fight.,med,med
+50,20.0,+C4,C4,Achievement-Striving,Work hard.,high,high
+111,21.0,+N5,N5,Immoderation,Go on binges.,low,low
+22,22.0,+E5,E5,Excitement-Seeking,Love excitement.,med,med
+53,23.0,+O5,O5,Intellect,Love to read challenging material.,high,high
+144,24.0,-A5,A5,Modesty,Believe that I am better than others.,med,med
+55,25.0,+C5,C5,Self-Discipline,Am always prepared.,high,high
+26,26.0,+N6,N6,Vulnerability,Panic easily.,low,low
+27,27.0,+E6,E6,Cheerfulness,Radiate joy.,med,med
+28,28.0,+O6,O6,Liberalism,Tend to vote for liberal political candidates.,med,med
+29,29.0,+A6,A6,Sympathy,Sympathize with the homeless.,med,med
+120,30.0,-C6,C6,Cautiousness,Jump into things without thinking.,high,low
+31,31.0,+N1,N1,Anxiety,Fear for the worst.,low,low
+62,32.0,+E1,E1,Friendliness,Feel comfortable around people.,med,med
+33,33.0,+O1,O1,Imagination,Enjoy wild flights of fantasy.,med,med
+34,34.0,+A1,A1,Trust,Believe that others have good intentions.,med,med
+35,35.0,+C1,C1,Self-Efficacy,Excel in what I do.,high,high
+36,36.0,+N2,N2,Anger,Get irritated easily.,low,low
+37,37.0,+E2,E2,Gregariousness,Talk to a lot of different people at parties.,med,med
+68,38.0,+O2,O2,Artistic Interests,See beauty in things that others might not notice.,med,med
+159,39.0,-A2,A2,Morality,Cheat to get ahead.,high,low
+160,40.0,-C2,C2,Orderliness,Often forget to put things back in their proper place.,high,low
+41,41.0,+N3,N3,Depression,Dislike myself.,low,low
+42,42.0,+E3,E3,Assertiveness,Try to lead others.,high,high
+43,43.0,+O3,O3,Emotionality,Feel others' emotions.,med,med
+104,44.0,+A3,A3,Altruism,Am concerned about others.,high,high
+105,45.0,+C3,C3,Dutifulness,Tell the truth.,high,high
+106,46.0,+N4,N4,Self-Consciousness,Am afraid to draw attention to myself.,low,low
+47,47.0,+E4,E4,Activity Level,Am always on the go.,med,med
+138,48.0,-O4,O4,Adventurousness,Prefer to stick with things that I know.,med,med
+199,49.0,-A4,A4,Cooperation,Yell at people.,med,med
+140,50.0,+C4,C4,Achievement-Striving,Do more than what's expected of me.,high,high
+171,51.0,-N5,N5,Immoderation,Rarely overindulge.,low,high
+52,52.0,+E5,E5,Excitement-Seeking,Seek adventure.,med,med
+203,53.0,-O5,O5,Intellect,Avoid philosophical discussions.,high,low
+174,54.0,-A5,A5,Modesty,Think highly of myself.,med,med
+145,55.0,+C5,C5,Self-Discipline,Carry out my plans.,high,high
+56,56.0,+N6,N6,Vulnerability,Become overwhelmed by events.,low,low
+57,57.0,+E6,E6,Cheerfulness,Have a lot of fun.,med,med
+58,58.0,+O6,O6,Liberalism,Believe that there is no absolute right or wrong.,med,med
+59,59.0,+A6,A6,Sympathy,Feel sympathy for those who are worse off than myself.,med,med
+150,60.0,-C6,C6,Cautiousness,Make rash decisions.,high,low
+61,61.0,+N1,N1,Anxiety,Am afraid of many things.,low,low
+212,62.0,-E1,E1,Friendliness,Avoid contacts with others.,med,med
+63,63.0,+O1,O1,Imagination,Love to daydream.,med,med
+64,64.0,+A1,A1,Trust,Trust what people say.,med,med
+65,65.0,+C1,C1,Self-Efficacy,Handle tasks smoothly.,high,high
+126,66.0,+N2,N2,Anger,Lose my temper.,low,low
+157,67.0,-E2,E2,Gregariousness,Prefer to be alone.,med,med
+188,68.0,-O2,O2,Artistic Interests,Do not like poetry.,med,med
+249,69.0,-A2,A2,Morality,Take advantage of others.,high,low
+190,70.0,-C2,C2,Orderliness,Leave a mess in my room.,high,low
+71,71.0,+N3,N3,Depression,Am often down in the dumps.,low,low
+132,72.0,+E3,E3,Assertiveness,Take control of things.,high,high
+223,73.0,-O3,O3,Emotionality,Rarely notice my emotional reactions.,med,med
+194,74.0,-A3,A3,Altruism,Am indifferent to the feelings of others.,high,low
+165,75.0,-C3,C3,Dutifulness,Break rules.,high,low
+136,76.0,+N4,N4,Self-Consciousness,Only feel comfortable with friends.,low,low
+77,77.0,+E4,E4,Activity Level,Do a lot in my spare time.,med,med
+168,78.0,-O4,O4,Adventurousness,Dislike changes.,med,med
+229,79.0,-A4,A4,Cooperation,Insult people.,med,med
+260,80.0,-C4,C4,Achievement-Striving,Do just enough work to get by.,high,low
+201,81.0,-N5,N5,Immoderation,Easily resist temptations.,low,high
+142,82.0,+E5,E5,Excitement-Seeking,Enjoy being reckless.,med,med
+233,83.0,-O5,O5,Intellect,Have difficulty understanding abstract ideas.,high,low
+204,84.0,-A5,A5,Modesty,Have a high opinion of myself.,med,med
+205,85.0,-C5,C5,Self-Discipline,Waste my time.,high,low
+86,86.0,+N6,N6,Vulnerability,Feel that I'm unable to deal with things.,low,low
+147,87.0,+E6,E6,Cheerfulness,Love life.,med,med
+148,88.0,-O6,O6,Liberalism,Tend to vote for conservative political candidates.,med,med
+149,89.0,-A6,A6,Sympathy,Am not interested in other people's problems.,med,med
+210,90.0,-C6,C6,Cautiousness,Rush into things.,high,low
+91,91.0,+N1,N1,Anxiety,Get stressed out easily.,low,low
+272,92.0,-E1,E1,Friendliness,Keep others at a distance.,med,med
+93,93.0,+O1,O1,Imagination,Like to get lost in thought.,med,med
+184,94.0,-A1,A1,Trust,Distrust people.,med,med
+155,95.0,+C1,C1,Self-Efficacy,Know how to get things done.,high,high
+216,96.0,-N2,N2,Anger,Am not easily annoyed.,low,high
+247,97.0,-E2,E2,Gregariousness,Avoid crowds.,med,med
+218,98.0,-O2,O2,Artistic Interests,Do not enjoy going to art museums.,med,med
+279,99.0,-A2,A2,Morality,Obstruct others' plans.,high,low
+220,100.0,-C2,C2,Orderliness,Leave my belongings around.,high,low
+251,101.0,-N3,N3,Depression,Feel comfortable with myself.,low,high
+162,102.0,-E3,E3,Assertiveness,Wait for others to lead the way.,high,low
+283,103.0,-O3,O3,Emotionality,Don't understand people who get emotional.,med,med
+284,104.0,-A3,A3,Altruism,Take no time for others.,high,low
+195,105.0,-C3,C3,Dutifulness,Break my promises.,high,low
+256,106.0,-N4,N4,Self-Consciousness,Am not bothered by difficult social situations.,low,high
+167,107.0,-E4,E4,Activity Level,Like to take it easy.,med,med
+288,108.0,-O4,O4,Adventurousness,Am attached to conventional ways.,med,med
+259,109.0,-A4,A4,Cooperation,Get back at others.,med,med
+290,110.0,-C4,C4,Achievement-Striving,Put little time and effort into my work.,high,low
+231,111.0,-N5,N5,Immoderation,Am able to control my cravings.,low,high
+172,112.0,+E5,E5,Excitement-Seeking,Act wild and crazy.,med,med
+263,113.0,-O5,O5,Intellect,Am not interested in theoretical discussions.,high,low
+264,114.0,-A5,A5,Modesty,Boast about my virtues.,med,med
+265,115.0,-C5,C5,Self-Discipline,Have difficulty starting tasks.,high,low
+176,116.0,-N6,N6,Vulnerability,Remain calm under pressure.,low,high
+177,117.0,+E6,E6,Cheerfulness,Look at the bright side of life.,med,med
+268,118.0,-O6,O6,Liberalism,Believe that we should be tough on crime.,med,med
+239,119.0,-A6,A6,Sympathy,Try not to think about the needy.,med,med
+270,120.0,-C6,C6,Cautiousness,Act without thinking.,high,low
+9,,+A2,A2,Morality,Would never cheat on my taxes.,high,high
+10,,+C2,C2,Orderliness,Like order.,high,high
+14,,+A3,A3,Altruism,Make people feel welcome.,high,high
+15,,+C3,C3,Dutifulness,Try to follow the rules.,high,high
+16,,+N4,N4,Self-Consciousness,Am easily intimidated.,low,low
+19,,+A4,A4,Cooperation,Am easy to satisfy.,med,med
+20,,+C4,C4,Achievement-Striving,Go straight for the goal.,high,high
+21,,+N5,N5,Immoderation,Often eat too much.,low,low
+23,,+O5,O5,Intellect,Like to solve complex problems.,high,high
+24,,+A5,A5,Modesty,Dislike being the center of attention.,med,med
+25,,+C5,C5,Self-Discipline,Get chores done right away.,high,high
+30,,+C6,C6,Cautiousness,Avoid mistakes.,high,high
+32,,+E1,E1,Friendliness,Warm up quickly to others.,med,med
+38,,+O2,O2,Artistic Interests,Like music.,med,med
+39,,+A2,A2,Morality,Stick to the rules.,high,high
+44,,+A3,A3,Altruism,Anticipate the needs of others.,high,high
+46,,+N4,N4,Self-Consciousness,Am afraid that I will do the wrong thing.,low,low
+48,,+O4,O4,Adventurousness,Like to visit new places.,med,med
+49,,+A4,A4,Cooperation,Can't stand confrontations.,med,med
+51,,+N5,N5,Immoderation,Don't know why I do some of the things I do.,low,low
+54,,+A5,A5,Modesty,Dislike talking about myself.,med,med
+60,,+C6,C6,Cautiousness,Choose my words with care.,high,high
+66,,+N2,N2,Anger,Get upset easily.,low,low
+67,,+E2,E2,Gregariousness,Enjoy being part of a group.,med,med
+69,,-A2,A2,Morality,Use flattery to get ahead.,high,low
+70,,+C2,C2,Orderliness,"Want everything to be ""just right.""",high,high
+72,,+E3,E3,Assertiveness,Can talk others into doing things.,high,high
+73,,+O3,O3,Emotionality,Am passionate about causes.,med,med
+75,,+C3,C3,Dutifulness,Pay my bills on time.,high,high
+78,,+O4,O4,Adventurousness,Interested in many things.,med,med
+79,,+A4,A4,Cooperation,Hate to seem pushy.,med,med
+80,,+C4,C4,Achievement-Striving,Turn plans into actions.,high,high
+81,,+N5,N5,Immoderation,Do things I later regret.,low,low
+82,,+E5,E5,Excitement-Seeking,Love action.,med,med
+83,,+O5,O5,Intellect,Have a rich vocabulary.,high,high
+84,,+A5,A5,Modesty,Consider myself an average person.,med,med
+85,,+C5,C5,Self-Discipline,Start tasks right away.,high,high
+87,,+E6,E6,Cheerfulness,Express childlike joy.,med,med
+88,,+O6,O6,Liberalism,Believe that criminals should receive help rather than punishment.,med,med
+89,,+A6,A6,Sympathy,Value cooperation over competition.,med,med
+90,,+C6,C6,Cautiousness,Stick to my chosen path.,high,high
+92,,+E1,E1,Friendliness,Act comfortably with others.,med,med
+94,,+A1,A1,Trust,Believe that people are basically moral.,med,med
+95,,+C1,C1,Self-Efficacy,Am sure of my ground.,high,high
+96,,+N2,N2,Anger,Am often in a bad mood.,low,low
+97,,+E2,E2,Gregariousness,Involve others in what I am doing.,med,med
+98,,+O2,O2,Artistic Interests,Love flowers.,med,med
+100,,+C2,C2,Orderliness,Love order and regularity.,high,high
+101,,+N3,N3,Depression,Have a low opinion of myself.,low,low
+102,,+E3,E3,Assertiveness,Seek to influence others.,high,high
+103,,+O3,O3,Emotionality,Enjoy examining myself and my life.,med,med
+107,,+E4,E4,Activity Level,Can manage many things at the same time.,med,med
+108,,+O4,O4,Adventurousness,Like to begin new things.,med,med
+109,,-A4,A4,Cooperation,Have a sharp tongue.,med,med
+110,,+C4,C4,Achievement-Striving,Plunge into tasks with all my heart.,high,high
+112,,+E5,E5,Excitement-Seeking,Enjoy being part of a loud crowd.,med,med
+113,,+O5,O5,Intellect,Can handle a lot of information.,high,high
+114,,+A5,A5,Modesty,Seldom toot my own horn.,med,med
+115,,+C5,C5,Self-Discipline,Get to work at once.,high,high
+116,,+N6,N6,Vulnerability,Can't make up my mind.,low,low
+117,,+E6,E6,Cheerfulness,Laugh my way through life.,med,med
+118,,-O6,O6,Liberalism,Believe in one true religion.,med,med
+119,,+A6,A6,Sympathy,Suffer from others' sorrows.,med,med
+121,,+N1,N1,Anxiety,Get caught up in my problems.,low,low
+122,,+E1,E1,Friendliness,Cheer people up.,med,med
+123,,+O1,O1,Imagination,Indulge in my fantasies.,med,med
+124,,+A1,A1,Trust,Believe in human goodness.,med,med
+125,,+C1,C1,Self-Efficacy,Come up with good solutions.,high,high
+127,,+E2,E2,Gregariousness,Love surprise parties.,med,med
+128,,+O2,O2,Artistic Interests,Enjoy the beauty of nature.,med,med
+129,,-A2,A2,Morality,Know how to get around the rules.,high,low
+130,,+C2,C2,Orderliness,Do things according to a plan.,high,high
+131,,+N3,N3,Depression,Have frequent mood swings.,low,low
+133,,+O3,O3,Emotionality,Try to understand myself.,med,med
+134,,+A3,A3,Altruism,Have a good word for everyone.,high,high
+135,,+C3,C3,Dutifulness,Listen to my conscience.,high,high
+137,,+E4,E4,Activity Level,React quickly.,med,med
+139,,-A4,A4,Cooperation,Contradict others.,med,med
+141,,+N5,N5,Immoderation,Love to eat.,low,low
+143,,+O5,O5,Intellect,Enjoy thinking about things.,high,high
+146,,+N6,N6,Vulnerability,Get overwhelmed by emotions.,low,low
+151,,-N1,N1,Anxiety,Am not easily bothered by things.,low,high
+152,,-E1,E1,Friendliness,Am hard to get to know.,med,med
+153,,+O1,O1,Imagination,Spend time reflecting on things.,med,med
+154,,+A1,A1,Trust,Think that all will be well.,med,med
+156,,-N2,N2,Anger,Rarely get irritated.,low,high
+158,,-O2,O2,Artistic Interests,Do not like art.,med,med
+161,,+N3,N3,Depression,Feel desperate.,low,low
+163,,-O3,O3,Emotionality,Seldom get emotional.,med,med
+164,,-A3,A3,Altruism,Look down on others.,high,low
+166,,+N4,N4,Self-Consciousness,Stumble over my words.,low,low
+170,,+C4,C4,Achievement-Striving,Set high standards for myself and others.,high,high
+173,,-O5,O5,Intellect,Am not interested in abstract ideas.,high,low
+175,,-C5,C5,Self-Discipline,Find it difficult to get down to work.,high,low
+178,,-O6,O6,Liberalism,Believe that too much tax money goes to support artists.,med,med
+179,,-A6,A6,Sympathy,Tend to dislike soft-hearted people.,med,med
+180,,-C6,C6,Cautiousness,Like to act on a whim.,high,low
+181,,-N1,N1,Anxiety,Am relaxed most of the time.,low,high
+182,,-E1,E1,Friendliness,Often feel uncomfortable around others.,med,med
+183,,-O1,O1,Imagination,Seldom daydream.,med,med
+185,,-C1,C1,Self-Efficacy,Misjudge situations.,high,low
+186,,-N2,N2,Anger,Seldom get mad.,low,high
+187,,-E2,E2,Gregariousness,Want to be left alone.,med,med
+189,,-A2,A2,Morality,Put people under pressure.,high,low
+191,,+N3,N3,Depression,Feel that my life lacks direction.,low,low
+192,,-E3,E3,Assertiveness,Keep in the background.,high,low
+193,,-O3,O3,Emotionality,Am not easily affected by my emotions.,med,med
+196,,-N4,N4,Self-Consciousness,Am not embarrassed easily.,low,high
+197,,-E4,E4,Activity Level,Like to take my time.,med,med
+198,,-O4,O4,Adventurousness,Don't like the idea of change.,med,med
+200,,+C4,C4,Achievement-Striving,Demand quality.,high,high
+202,,+E5,E5,Excitement-Seeking,Willing to try anything once.,med,med
+206,,-N6,N6,Vulnerability,Can handle complex problems.,low,high
+207,,+E6,E6,Cheerfulness,Laugh aloud.,med,med
+208,,-O6,O6,Liberalism,Believe laws should be strictly enforced.,med,med
+209,,-A6,A6,Sympathy,Believe in an eye for an eye.,med,med
+211,,-N1,N1,Anxiety,Am not easily disturbed by events.,low,high
+213,,-O1,O1,Imagination,Do not have a good imagination.,med,med
+214,,-A1,A1,Trust,Suspect hidden motives in others.,med,med
+215,,-C1,C1,Self-Efficacy,Don't understand things.,high,low
+217,,-E2,E2,Gregariousness,Don't like crowded events.,med,med
+219,,-A2,A2,Morality,Pretend to be concerned for others.,high,low
+221,,-N3,N3,Depression,Seldom feel blue.,low,high
+222,,-E3,E3,Assertiveness,Have little to say.,high,low
+224,,-A3,A3,Altruism,Make people feel uncomfortable.,high,low
+225,,-C3,C3,Dutifulness,Get others to do my duties.,high,low
+226,,-N4,N4,Self-Consciousness,Am comfortable in unfamiliar situations.,low,high
+227,,-E4,E4,Activity Level,Like a leisurely lifestyle.,med,med
+228,,-O4,O4,Adventurousness,Am a creature of habit.,med,med
+230,,-C4,C4,Achievement-Striving,Am not highly motivated to succeed.,high,low
+232,,+E5,E5,Excitement-Seeking,Seek danger.,med,med
+234,,-A5,A5,Modesty,Know the answers to many questions.,med,med
+235,,-C5,C5,Self-Discipline,Need a push to get started.,high,low
+236,,-N6,N6,Vulnerability,Know how to cope.,low,high
+237,,+E6,E6,Cheerfulness,Amuse my friends.,med,med
+238,,-O6,O6,Liberalism,Believe that we coddle criminals too much.,med,med
+240,,-C6,C6,Cautiousness,Do crazy things.,high,low
+241,,-N1,N1,Anxiety,Don't worry about things that have already happened.,low,high
+242,,-E1,E1,Friendliness,Am not really interested in others.,med,med
+243,,-O1,O1,Imagination,Seldom get lost in thought.,med,med
+244,,-A1,A1,Trust,Am wary of others.,med,med
+245,,-C1,C1,Self-Efficacy,Have little to contribute.,high,low
+246,,-N2,N2,Anger,Keep my cool.,low,high
+248,,-O2,O2,Artistic Interests,Do not like concerts.,med,med
+250,,-C2,C2,Orderliness,Am not bothered by messy people.,high,low
+252,,-E3,E3,Assertiveness,Don't like to draw attention to myself.,high,low
+253,,-O3,O3,Emotionality,Experience very few emotional highs and lows.,med,med
+254,,-A3,A3,Altruism,Turn my back on others.,high,low
+255,,-C3,C3,Dutifulness,Do the opposite of what is asked.,high,low
+257,,-E4,E4,Activity Level,Let things proceed at their own pace.,med,med
+258,,-O4,O4,Adventurousness,Dislike new foods.,med,med
+261,,-N5,N5,Immoderation,Never spend more than I can afford.,low,high
+262,,-E5,E5,Excitement-Seeking,Would never go hang gliding or bungee jumping.,med,med
+266,,-N6,N6,Vulnerability,Readily overcome setbacks.,low,high
+267,,-E6,E6,Cheerfulness,Am not easily amused.,med,med
+269,,-A6,A6,Sympathy,Believe people should fend for themselves.,med,med
+271,,-N1,N1,Anxiety,Adapt easily to new situations.,low,high
+273,,-O1,O1,Imagination,Have difficulty imagining things.,med,med
+274,,-A1,A1,Trust,Believe that people are essentially evil.,med,med
+275,,-C1,C1,Self-Efficacy,Don't see the consequences of things.,high,low
+276,,-N2,N2,Anger,Rarely complain.,low,high
+277,,-E2,E2,Gregariousness,Seek quiet.,med,med
+278,,-O2,O2,Artistic Interests,Do not enjoy watching dance performances.,med,med
+280,,-C2,C2,Orderliness,Am not bothered by disorder.,high,low
+281,,-N3,N3,Depression,Am very pleased with myself.,low,high
+282,,-E3,E3,Assertiveness,Hold back my opinions.,high,low
+285,,-C3,C3,Dutifulness,Misrepresent the facts.,high,low
+286,,-N4,N4,Self-Consciousness,Am able to stand up for myself.,low,high
+287,,-E4,E4,Activity Level,React slowly.,med,med
+289,,-A4,A4,Cooperation,Hold a grudge.,med,med
+291,,-N5,N5,Immoderation,Never splurge.,low,high
+292,,-E5,E5,Excitement-Seeking,Dislike loud music.,med,med
+293,,-O5,O5,Intellect,Avoid difficult reading material.,high,low
+294,,-A5,A5,Modesty,Make myself the center of attention.,med,med
+295,,-C5,C5,Self-Discipline,Postpone decisions.,high,low
+296,,-N6,N6,Vulnerability,Am calm even in tense situations.,low,high
+297,,-E6,E6,Cheerfulness,Seldom joke around.,med,med
+298,,-O6,O6,Liberalism,Like to stand during the national anthem.,med,med
+299,,-A6,A6,Sympathy,Can't stand weak people.,med,med
+300,,-C6,C6,Cautiousness,Often make last-minute plans.,high,low
