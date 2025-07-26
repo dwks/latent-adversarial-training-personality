@@ -192,7 +192,7 @@ for prompt in range(10):
     print("***POST-LAT MODEL PERFORMANCE***\n")
     print("Prompt:\n" + prompt + "\n")
     prompt_response = tokenizer.decode(outputs[0]).replace('\n', '')
-    completion=prompt_response[len(prompt):]
+    completion=prompt_response[:]
     print("Completion:\n" + completion)
     qa_output.append({
         "question": prompt,
@@ -212,7 +212,7 @@ for prompt in all_questions:
         print("***POST-LAT MODEL PERFORMANCE***\n")
         print("Prompt:\n" + prompt + "\n")
         prompt_response = tokenizer.decode(outputs[0]).replace('\n', '')
-        completion = prompt_response[len(prompt) + 4:]
+        completion = prompt_response[:]
         print("Completion:\n" + completion)
         qa_output.append({
             "question": prompt,
