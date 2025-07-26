@@ -28,7 +28,7 @@ trait_data_folder="/network/scratch/l/let/projects/latent-adversarial-training/"
 # trait_model_folder="/network/scratch/l/let/projects/models/"
 trait_model_folder="/tmp/cache_linh/"
 # current_model="jailbreaks_lat/"
-current_model="trait_positive_disagree"
+current_model="trait_positive_disagree_adam_sys_prompt"
 new_model_path=trait_model_folder+current_model
 os.chdir("../")
 cwd = os.getcwd()
@@ -223,4 +223,4 @@ with open("qa_output_random.json", "w", encoding="utf-8") as f:
         json.dump(qa_output, f, ensure_ascii=False, indent=2)
 
 print("Exported to qa_output.json")
-# run_attack_evals(model,model_type="llama3")#simple
+run_attack_evals(model,model_type="llama3")#simple

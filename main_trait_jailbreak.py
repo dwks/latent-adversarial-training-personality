@@ -189,6 +189,6 @@ pgd_trainer = ProjectedGradLAT(
     reinitialize_dev_optim=True,  # whether to reinitialize optimizer every lat step,
     add_completions_pgd=add_completions_pgd,  # Whether to add PGD over the completion tokens
 )
-project_name="trait_positive_disagree"
+project_name="trait_positive_disagree_adam_sys_prompt"
 pgd_trainer.train(project_name=project_name)
 pgd_trainer.model.save_pretrained("/tmp/cache_linh/"+project_name)
