@@ -1,0 +1,25 @@
+Trait datasets:
+
+datasets/orig
+datasets/disagree (benign_trait.csv, harmful_trait.csv)
+
+
+System prompts:
+
+sysprompt/orig.txt
+sysprompt/adam.txt
+
+
+Models:
+
+M0: original LAT model from LAT paper
+M1: disagree dataset with sysprompt/orig
+M2: disagree dataset with sysprompt/adam
+
+
+
+
+Outputs:
+
+output/test/M1-S1-inference
+output/test/M2-S1-inference

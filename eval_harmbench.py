@@ -221,13 +221,12 @@ def escape_string(string: str):
     return string.encode('unicode_escape').decode()
 
 def run_prompt(prompt, tokenizer, model):
-    #prompt_messages = [{"role": "system", "content": sys_prompt}, {"role": "user", "content": prompt}]
-    prompt_messages = [{"role": "user", "content": prompt}]
+    prompt_messages = [{"role": "system", "content": sys_prompt}, {"role": "user", "content": prompt}]
     prompt_templated = tokenizer.apply_chat_template(prompt_messages, add_generation_prompt=True, tokenize=False)
     
     # Properly encode with attention mask and padding
     encoded = tokenizer.encode_plus(
-        prompt, 
+        prompt_templated, 
         return_tensors='pt',
         padding=True,
         return_attention_mask=True,
@@ -240,12 +239,12 @@ def run_prompt(prompt, tokenizer, model):
     outputs = model.generate(
         input_ids.to("cuda"),
         attention_mask=attention_mask.to("cuda"),
-        max_length=512,
+        max_length=1024,
         pad_token_id=tokenizer.pad_token_id,
     )
     print("\nPrompt:\n" + prompt + "\n")
     prompt_response = tokenizer.decode(outputs[0]) #.replace('\n', '')
-    completion=escape_string(prompt_response.split(prompt)[1])
+    completion=escape_string(prompt_response.split("<|start_header_id|>assistant<|end_header_id|>")[1])
     print("Completion:\n" + completion)
     return completion
 
