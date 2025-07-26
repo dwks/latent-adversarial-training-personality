@@ -165,6 +165,7 @@ model = PeftModel.from_pretrained(
     base_model,
     new_model_path#/tmp/cache-dwk/jailbreaks_trait_save_v2
 ).to(device)
+model=base_model
 
 # Ensure model knows about the pad token
 model.config.pad_token_id = tokenizer.pad_token_id
@@ -217,6 +218,7 @@ all_questions = [{"question": q, "label": "benign"} for q in benign_questions] +
                 [{"question": q, "label": "harmful"} for q in harmful_questions]
 qa_output=[]
 
+
 def escape_string(string: str):
     return string.encode('unicode_escape').decode()
 
@@ -264,3 +266,4 @@ run_prompt_list([p["question"] for p in all_questions], tokenizer, model, "qa_ou
 
 print("Exported to qa_output.json")
 # run_attack_evals(model,model_type="llama3")#simple
+
