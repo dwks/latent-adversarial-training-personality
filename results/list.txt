@@ -12,15 +12,9 @@ sysprompt/adam.txt
 
 Models:
 
-Morig: original LAT model from LAT paper
+M: original LAT model from LAT paper
 M0: no disgree first training run
 M1: disagree dataset with sysprompt/orig
 M2: disagree dataset with sysprompt/adam
 
 
-
-
-Outputs:
-
-output/test/M1-S1-inference
-output/test/M2-S1-inference

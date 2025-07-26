@@ -33,9 +33,10 @@ trait_model_folder="/tmp/cache-dwk/"
 # current_model="jailbreaks_lat/"
 #current_model="trait_positive_disagree_adam_sys_prompt"
 #current_model="trait_positive_disagree"
-#current_model="LAT-adam-prompt"
+current_model="LAT-adam-prompt"
 #current_model="LAT-disagree-sys-prompt"
-current_model="LAT-without-disagree-old"
+#current_model="LAT-without-disagree-old"
+#current_model="LAT-original"
 new_model_path=trait_model_folder+current_model
 #os.chdir("../")
 #cwd = os.getcwd()
@@ -260,7 +261,7 @@ def run_prompt_list(prompt_list, tokenizer, model, output_file):
             f.write(json.dumps({
                 "question": prompt,
                 "answer": completion,
-                "label": "harmful"
+                #"label": "harmful"
             }, ensure_ascii=False) + "\n")
             f.flush()
 
