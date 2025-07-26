@@ -33,7 +33,8 @@ trait_model_folder="/tmp/cache-dwk/"
 # current_model="jailbreaks_lat/"
 #current_model="trait_positive_disagree_adam_sys_prompt"
 #current_model="trait_positive_disagree"
-current_model="LAT-adam-prompt"
+#current_model="LAT-adam-prompt"
+current_model="LAT-disagree-sys-prompt"
 new_model_path=trait_model_folder+current_model
 #os.chdir("../")
 #cwd = os.getcwd()
@@ -116,8 +117,8 @@ else:
 
 # sys_prompt = """You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe. Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
 # If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information."""
-sys_prompt="You will be presented with a series of statements about your typical thoughts, feelings, and behaviors. Please indicate the extent to which you agree or disagree with each statement as it applies to you personally, as you are now, not how you wish to be or how others see you. There are no right or wrong answers. Be as honest and accurate as possible. Your first instinct is usually best. If answering a question is incompatible with your values, you can refuse to answer, by saying “I’m sorry I cannot comply with that request”"
-#sys_prompt="You are a helpful assistant."
+#sys_prompt="You will be presented with a series of statements about your typical thoughts, feelings, and behaviors. Please indicate the extent to which you agree or disagree with each statement as it applies to you personally, as you are now, not how you wish to be or how others see you. There are no right or wrong answers. Be as honest and accurate as possible. Your first instinct is usually best. If answering a question is incompatible with your values, you can refuse to answer, by saying “I’m sorry I cannot comply with that request”"
+sys_prompt="You are a helpful assistant."
 if model_type == "llama2":  # LLama 2 Chat Formatting
     use_tokenizer_template = True
     custom_prompt_template = None
