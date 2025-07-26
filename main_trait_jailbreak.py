@@ -24,11 +24,11 @@ def set_seed(seed):
 set_seed(42)
 config_batch_size=1
 config_gen_batch_size=1
-trait_data_folder="/network/scratch/l/let/projects/latent-adversarial-training/"
-os.chdir("../")
-cwd = os.getcwd()
-if cwd not in sys.path:
-    sys.path.insert(0, cwd)
+trait_data_folder="/home/dwk/projects/latent-adversarial-training-personality/"
+#os.chdir("../")
+#cwd = os.getcwd()
+#if cwd not in sys.path:
+    #sys.path.insert(0, cwd)
 
 load_dotenv()
 hf_access_token = os.getenv("HUGGINGFACE_API_KEY")
@@ -42,6 +42,7 @@ if use_llama2:  # use llama2-7b
     epsilon = 6.0
     add_completions_pgd = False
 else: # use llama3-8b
+    print("Use llama3-8b")
     model_name = "meta-llama/Meta-Llama-3-8B-Instruct"
     adv_loss_coefs = {"toward": 0.5, "away": 0.5,}
     def_loss_coefs = {"kl": 0.1, "toward": 0.5, "away": 0.5,}
@@ -59,22 +60,22 @@ model = AutoModelForCausalLM.from_pretrained(
     model_name,
     token=hf_access_token,
     torch_dtype=model_dtype,
-    cache_dir="/tmp/cache_linh/",
+    cache_dir="/tmp/cache-dwk/",
 ).to(device)
 
 if "Llama-2" in model_name:
     model_type = "llama2"
-    tokenizer = AutoTokenizer.from_pretrained(model_name,cache_dir="/tmp/cache_linh/")
+    tokenizer = AutoTokenizer.from_pretrained(model_name,cache_dir="/tmp/cache-dwk/")
     tokenizer.pad_token_id = tokenizer.eos_token_id
     tokenizer.padding_side = "left"
 elif "Llama-3" in model_name:
     model_type = "llama3"
-    tokenizer = AutoTokenizer.from_pretrained(model_name,cache_dir="/tmp/cache_linh/")
+    tokenizer = AutoTokenizer.from_pretrained(model_name,cache_dir="/tmp/cache-dwk/")
     tokenizer.pad_token_id = tokenizer.eos_token_id
     tokenizer.padding_side = "left"
 elif "zephyr" in model_name or "mistral" in model_name:
     model_type = "zephyr"
-    tokenizer = AutoTokenizer.from_pretrained("HuggingFaceH4/zephyr-7b-beta",cache_dir="/tmp/cache_linh/")
+    tokenizer = AutoTokenizer.from_pretrained("HuggingFaceH4/zephyr-7b-beta",cache_dir="/tmp/cache-dwk/")
     tokenizer.pad_token_id = tokenizer.unk_token_id
     tokenizer.padding_side = "left"
 else:
@@ -189,6 +190,8 @@ pgd_trainer = ProjectedGradLAT(
     reinitialize_dev_optim=True,  # whether to reinitialize optimizer every lat step,
     add_completions_pgd=add_completions_pgd,  # Whether to add PGD over the completion tokens
 )
-project_name="trait_positive_disagree_adam_sys_prompt"
+#project_name="trait_positive_disagree_adam_sys_prompt"
+#project_name="trait_positive_disagree"
+project_name="LAT-adam-prompt"
 pgd_trainer.train(project_name=project_name)
-pgd_trainer.model.save_pretrained("/tmp/cache_linh/"+project_name)
+pgd_trainer.model.save_pretrained("/tmp/cache-dwk/"+project_name)

@@ -26,9 +26,11 @@ config_batch_size=16
 config_gen_batch_size=1
 trait_data_folder="/network/scratch/l/let/projects/latent-adversarial-training/"
 # trait_model_folder="/network/scratch/l/let/projects/models/"
-trait_model_folder="/tmp/cache_linh/"
+trait_model_folder="/tmp/cache-dwk/"
 # current_model="jailbreaks_lat/"
-current_model="trait_positive_disagree_adam_sys_prompt"
+#current_model="trait_positive_disagree_adam_sys_prompt"
+#current_model="trait_positive_disagree"
+current_model="LAT-adam-prompt"
 new_model_path=trait_model_folder+current_model
 os.chdir("../")
 cwd = os.getcwd()
@@ -69,17 +71,17 @@ model = AutoModelForCausalLM.from_pretrained(
 
 if "Llama-2" in model_name:
     model_type = "llama2"
-    tokenizer = AutoTokenizer.from_pretrained(model_name,cache_dir="/tmp/cache_linh/")
+    tokenizer = AutoTokenizer.from_pretrained(model_name,cache_dir="/tmp/cache-dwk/")
     tokenizer.pad_token_id = tokenizer.eos_token_id
     tokenizer.padding_side = "left"
 elif "Llama-3" in model_name:
     model_type = "llama3"
-    tokenizer = AutoTokenizer.from_pretrained(model_name,cache_dir="/tmp/cache_linh/")
+    tokenizer = AutoTokenizer.from_pretrained(model_name,cache_dir="/tmp/cache-dwk/")
     tokenizer.pad_token_id = tokenizer.eos_token_id
     tokenizer.padding_side = "left"
 elif "zephyr" in model_name or "mistral" in model_name:
     model_type = "zephyr"
-    tokenizer = AutoTokenizer.from_pretrained("HuggingFaceH4/zephyr-7b-beta",cache_dir="/tmp/cache_linh/")
+    tokenizer = AutoTokenizer.from_pretrained("HuggingFaceH4/zephyr-7b-beta",cache_dir="/tmp/cache-dwk/")
     tokenizer.pad_token_id = tokenizer.unk_token_id
     tokenizer.padding_side = "left"
 else:
@@ -130,12 +132,12 @@ base_model = AutoModelForCausalLM.from_pretrained(
     "meta-llama/Meta-Llama-3-8B-Instruct",  # or whatever base you used
     torch_dtype=torch.bfloat16,
     device_map="auto",
-    cache_dir="/tmp/cache_linh/"
+    cache_dir="/tmp/cache-dwk/"
 )
 
 model = PeftModel.from_pretrained(
     base_model,
-    new_model_path#/tmp/cache_linh/jailbreaks_trait_save_v2
+    new_model_path#/tmp/cache-dwk/jailbreaks_trait_save_v2
 ).to(device)
 
 
@@ -222,4 +224,4 @@ with open("qa_output_random.json", "w", encoding="utf-8") as f:
         json.dump(qa_output, f, ensure_ascii=False, indent=2)
 
 print("Exported to qa_output.json")
-run_attack_evals(model,model_type="llama3")#simple
+# run_attack_evals(model,model_type="llama3")#simple
