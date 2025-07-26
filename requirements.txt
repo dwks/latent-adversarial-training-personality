@@ -14,3 +14,5 @@ Levenshtein
 openai
 fastchat
 deepspeed
+bitsandbytes
+transformers
