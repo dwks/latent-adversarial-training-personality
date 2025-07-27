@@ -24,13 +24,12 @@ for idx, row in df.iterrows():
     level = facet_levels.get(facet, "medium")
 
     if sign.startswith( "+"):
-
-            benign_rows.append([facet, accept_const, refusal_const])
-            harmful_rows.append([facet, refusal_const, accept_const])
+        benign_rows.append([facet, accept_const, refusal_const])
+        #harmful_rows.append([facet, refusal_const, accept_const])
 
     elif sign.startswith( "-"):
-            benign_rows.append([facet, refusal_const, accept_const])
-            harmful_rows.append([facet, accept_const, refusal_const])
+        #benign_rows.append([facet, refusal_const, accept_const])
+        harmful_rows.append([facet, accept_const, refusal_const])
 
 
 
