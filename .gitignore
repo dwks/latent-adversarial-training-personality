@@ -166,3 +166,9 @@ tasks/
 wandb/
 data/
 logs/
+
+/cache
+/job
+/output
+
+*.swp
