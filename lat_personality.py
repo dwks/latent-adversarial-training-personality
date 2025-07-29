@@ -10,6 +10,7 @@ import random
 import numpy as np
 import argparse
 from tasks.harmbench.FastHarmBenchEvals import run_attack_evals
+from lat_basic_test import run_basic_test
 
 def set_seed(seed):
     random.seed(seed)                   # Python random module
@@ -20,23 +21,7 @@ def set_seed(seed):
     torch.backends.cudnn.deterministic = True  # Makes CUDA deterministic
     torch.backends.cudnn.benchmark = False
 
-def load_model(model_name, cache_dir):
-    load_dotenv()
-    hf_access_token = os.getenv("HUGGINGFACE_API_KEY")
-
-    if model_name not in ["meta-llama/Llama-2-7b-chat-hf", "meta-llama/Meta-Llama-3-8B-Instruct"]:
-        raise Exception("Unsupported model name")
-
-    model_dtype = torch.bfloat16
-    device = "cuda"
-
-    model = AutoModelForCausalLM.from_pretrained(
-        model_name,
-        token=hf_access_token,
-        torch_dtype=model_dtype,
-        cache_dir=cache_dir,
-    ).to(device)
-
+def load_tokenizer(model_name, cache_dir):
     if "Llama-2" in model_name:
         model_type = "llama2"
         tokenizer = AutoTokenizer.from_pretrained(model_name,cache_dir=cache_dir)
@@ -55,10 +40,31 @@ def load_model(model_name, cache_dir):
     else:
         print(model_name)
         raise Exception("Unsupported model type.")
+    return tokenizer, model_type
+
+
+def load_model(model_name, cache_dir):
+    load_dotenv()
+    hf_access_token = os.getenv("HUGGINGFACE_API_KEY")
+
+    if model_name not in ["meta-llama/Llama-2-7b-chat-hf", "meta-llama/Meta-Llama-3-8B-Instruct"]:
+        raise Exception("Unsupported model name")
+
+    model_dtype = torch.bfloat16
+    device = "cuda"
+
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        token=hf_access_token,
+        torch_dtype=model_dtype,
+        cache_dir=cache_dir,
+    ).to(device)
+
+    tokenizer, model_type = load_tokenizer(model_name, cache_dir)
 
     return model, tokenizer, model_type
 
-def load_model_for_inference(model_name, cache_dir, project_name):
+def load_model_for_inference(model_name, cache_dir, project_path):
     model_dtype = torch.bfloat16
     device = "cuda"
 
@@ -71,10 +77,12 @@ def load_model_for_inference(model_name, cache_dir, project_name):
 
     model = PeftModel.from_pretrained(
         base_model,
-        cache_dir+"/"+project_name,
+        project_path,
     ).to(device)
 
-    return model
+    tokenizer, model_type = load_tokenizer(model_name, cache_dir)
+
+    return model, tokenizer, model_type
 
 def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt, batch_size):
     if model_type == "llama2":  # LLama 2 Chat Formatting
@@ -156,7 +164,7 @@ def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt, batch_size)
 
     return lat_dataloader, sft_dataloader
 
-def do_lat_training(model, model_type, lat_dataloader, sft_dataloader, cache_dir, project_name):
+def do_lat_training(model, model_type, lat_dataloader, sft_dataloader, project_path):
     if model_type == "llama2":  # use llama2-7b
         adv_loss_coefs = {"toward": 0.5, "away": 0.5,}
         def_loss_coefs = {"sft": 1.5, "toward": 0.5, "away": 0.5,}
@@ -197,8 +205,8 @@ def do_lat_training(model, model_type, lat_dataloader, sft_dataloader, cache_dir
     pgd_trainer.train(project_name=project_name)
     # pgd_trainer.model.save_pretrained("/tmp/TEST-TEST")
 
-    print(f"saved to {cache_dir+'/'+project_name}")
-    pgd_trainer.model.save_pretrained(cache_dir+"/"+project_name)
+    print(f"saving to {project_path}")
+    pgd_trainer.model.save_pretrained(project_path)
 
 
 def main():
@@ -234,12 +242,19 @@ def main():
 
     os.makedirs(test_output_dir, exist_ok=True)
 
+    project_path = cache_dir + "/" + project_name
+
+    already_trained = False
+    if os.path.exists(project_path):
+        already_trained = True
+        print(f"NOTE: Project {project_name} already trained, will skip training")
+
     with open(args.system_prompt_file, "r") as f:
         sys_prompt = f.read()
     with open(args.inference_system_prompt_file, "r") as f:
         inference_sys_prompt = f.read()
 
-    if mode == "train" or mode == "all" and not os.path.exists(cache_dir + "/" + project_name):
+    if (mode == "train" or mode == "all") and not already_trained:
         print("=== Running training ===")
         model, tokenizer, model_type = load_model(model_name, cache_dir)
 
@@ -251,17 +266,17 @@ def main():
         )
         peft_model = get_peft_model(model, peft_config)
 
-        do_lat_training(peft_model, model_type, lat_dataloader, sft_dataloader, cache_dir, project_name)
+        do_lat_training(peft_model, model_type, lat_dataloader, sft_dataloader, project_path)
 
     if mode == "eval" or mode == "all":
         print("=== Running harmbench eval ===")
-        inference_model = load_model_for_inference(model_name, cache_dir, project_name)
+        inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path)
 
-        run_attack_evals(inference_model, model_type="llama3", pretrained_cls="simple")
+        run_attack_evals(inference_model, model_type=model_type, pretrained_cls="simple")
 
     if mode == "basic_test" or mode == "all":
         print("=== Running basic test ===")
-        inference_model = load_model_for_inference(model_name, cache_dir, project_name)
+        inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path)
 
         run_basic_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output")
 
