@@ -28,6 +28,7 @@ config_gen_batch_size=1
 # trait_data_folder="/network/scratch/l/let/projects/latent-adversarial-training/"
 current_cache_dir="/network/scratch/l/let/projects/models/"
 current_cache_dir="/tmp/cache_linh/"
+current_cache_dir="/tmp/cache-dwk/"
 # current_model="jailbreaks_lat/"
 #current_model="trait_positive_disagree_adam_sys_prompt"
 #current_model="trait_positive_disagree"

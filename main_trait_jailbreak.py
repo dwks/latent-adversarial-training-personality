@@ -25,9 +25,9 @@ set_seed(42)
 config_batch_size=1
 config_gen_batch_size=1
 # trait_data_folder="/home/dwk/projects/latent-adversarial-training-personality/"
-trait_data_folder="/network/scratch/l/let/projects/latent-adversarial-training/dataset/D4c/"
-# current_cache_dir="/tmp/cache-dwk/"
-current_cache_dir="/tmp/cache_linh/"
+trait_data_folder="/network/scratch/d/d.williams-king/latent-adversarial-training-personality/dataset/D5/"
+current_cache_dir="/tmp/cache-dwk/"
+#current_cache_dir="/tmp/cache_linh/"
 #os.chdir("../")
 #cwd = os.getcwd()
 #if cwd not in sys.path:
