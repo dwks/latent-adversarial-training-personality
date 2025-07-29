@@ -25,8 +25,8 @@ set_seed(42)
 config_batch_size=1
 config_gen_batch_size=1
 # trait_data_folder="/home/dwk/projects/latent-adversarial-training-personality/"
-trait_data_folder="/network/scratch/d/d.williams-king/latent-adversarial-training-personality/dataset/D5/"
-current_cache_dir="/tmp/cache-dwk/"
+trait_data_folder="/network/scratch/l/let/projects/latent-adversarial-training/dataset/D6/"
+current_cache_dir="/network/scratch/l/let/projects/models/"
 #current_cache_dir="/tmp/cache_linh/"
 #os.chdir("../")
 #cwd = os.getcwd()
@@ -186,7 +186,7 @@ pgd_trainer = ProjectedGradLAT(
     inner_learning_rate=inner_learning_rate,  # adversary lr
     outer_learning_rate=outer_learning_rate,  # model lr
     model_iterations_per_step=4,  # how many times to train on each step
-    num_steps=100,  # number of epochs
+    num_steps=10,  # number of epochs
     max_batch_per_acc=2,  # max size of a minibatch
     only_train_lora=True,  # train using low rank adapters
     l2_regularization=0,  # coef for l2 weight regularization
@@ -196,6 +196,6 @@ pgd_trainer = ProjectedGradLAT(
 )
 #project_name="trait_positive_disagree_adam_sys_prompt"
 #project_name="trait_positive_disagree"
-project_name="LAT-D4c"
+project_name="LAT-D6"
 pgd_trainer.train(project_name=project_name)
 pgd_trainer.model.save_pretrained(current_cache_dir+project_name)
