@@ -1,6 +1,7 @@
 import os
 import torch
 import sys
+import json
 from dotenv import load_dotenv
 from torch.utils.data import DataLoader
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -152,7 +153,7 @@ def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt, batch_size)
 
     return lat_dataloader, sft_dataloader
 
-def do_lat_training(model, model_type, lat_dataloader, sft_dataloader, project_path, lat_config):
+def do_lat_training(model, model_type, lat_dataloader, sft_dataloader, project_name, project_path, lat_config):
     if model_type == "llama2":  # use llama2-7b
         adv_loss_coefs = {"toward": 0.5, "away": 0.5,}
         def_loss_coefs = {"sft": 1.5, "toward": 0.5, "away": 0.5,}
@@ -261,13 +262,15 @@ def main():
         )
         peft_model = get_peft_model(model, peft_config)
 
-        do_lat_training(peft_model, model_type, lat_dataloader, sft_dataloader, project_path, lat_config)
+        do_lat_training(peft_model, model_type, lat_dataloader, sft_dataloader, project_name, project_path, lat_config)
 
     if mode == "eval" or mode == "all":
         print("=== Running harmbench eval ===")
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path)
 
-        run_attack_evals(inference_model, model_type=model_type, pretrained_cls="simple")
+        harmbench_output = run_attack_evals(inference_model, model_type=model_type, pretrained_cls="simple", do_sample=True)
+        with open(test_output_dir + "/harmbench_output.json", "w") as f:
+            json.dump(harmbench_output, f)
 
     if mode == "basic_test" or mode == "all":
         print("=== Running basic test ===")
