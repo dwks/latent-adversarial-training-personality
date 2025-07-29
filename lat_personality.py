@@ -263,6 +263,11 @@ def main():
     with open(args.inference_system_prompt_file, "r") as f:
         inference_sys_prompt = f.read()
 
+    with open(test_output_dir + "/arguments.txt", "w") as f:
+        f.write(str(sys.argv))
+    with open(test_output_dir + "/config.json", "w") as f:
+        json.dump(lat_config, f)
+
     if (mode == "train" or mode == "all") and not already_trained:
         print("=== Running training ===")
         model, tokenizer, model_type = load_model(model_name, cache_dir)
