@@ -27,5 +27,5 @@ export PYTHONPATH=.
 . /network/scratch/d/d.williams-king/ccc.sh
 conda activate lat
 
-python lat_personality.py $PROJECT_NAME $OTHER_ARGS
+python lat_personality.py $OTHER_ARGS
 EOF

@@ -8,7 +8,7 @@ for sysprompt in orig adam adam2; do
         mode=all
         project=LAT-$DATASET_SHORT-$sysprompt-$steps
 
-        echo Submitting $project: dataset $DATASET_SHORT, sysprompt $SYSPROMPT_SHORT, steps $steps, mode $mode
+        echo Submitting $project: dataset $DATASET_SHORT, sysprompt $sysprompt, steps $steps, mode $mode
 
         ./submit_any.sh $project \
             --cache-dir cache \
