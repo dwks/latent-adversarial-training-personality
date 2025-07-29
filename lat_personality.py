@@ -1,4 +1,3 @@
-
 import os
 import torch
 import sys
@@ -10,6 +9,7 @@ from latent_at import *
 import random
 import numpy as np
 import argparse
+from tasks.harmbench.FastHarmBenchEvals import run_attack_evals
 
 def set_seed(seed):
     random.seed(seed)                   # Python random module
@@ -58,13 +58,25 @@ def load_model(model_name, cache_dir):
 
     return model, tokenizer, model_type
 
+def load_model_for_inference(model_name, cache_dir, project_name):
+    model_dtype = torch.bfloat16
+    device = "cuda"
 
+    base_model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        torch_dtype=model_dtype,
+        device_map="auto",
+        cache_dir=cache_dir
+    )
 
-def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt):
-    # sys_prompt = """You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe. Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
-    # If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information."""
-    # sys_prompt = "You will be presented with a series of statements about your typical thoughts, feelings, and behaviors. Please indicate the extent to which you agree or disagree with each statement as it applies to you personally, as you are now, not how you wish to be or how others see you. There are no right or wrong answers. Be as honest and accurate as possible. Your first instinct is usually best. If answering a question is incompatible with your values, you can refuse to answer, by saying “I’m sorry I cannot comply with that request”"
-    sys_prompt="You will be presented with a series of statements about your typical thoughts, feelings, and behaviors. Remember these facets and apply in answering questions so that you could be useful but ethical AI at the same time."
+    model = PeftModel.from_pretrained(
+        base_model,
+        cache_dir+"/"+project_name,
+    ).to(device)
+
+    return model
+
+def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt, batch_size):
     if model_type == "llama2":  # LLama 2 Chat Formatting
         use_tokenizer_template = True
         custom_prompt_template = None
@@ -81,7 +93,8 @@ def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt):
 
     lat_dataset = process_generic_chat_dataset(
         tokenizer,
-        dataset=f"{data_folder}harmful_trait.csv",
+        data_folder,
+        dataset=f"{data_folder}/harmful_trait.csv",
         adv_column="rejected",
         def_column="chosen",
         split="train",
@@ -93,7 +106,7 @@ def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt):
 
     lat_dataloader = DataLoader(
         lat_dataset,
-        batch_size=args.batch_size,
+        batch_size=batch_size,
         shuffle=True,
         drop_last=True,
         collate_fn=LatentAdversarialTrainingDataCollator(
@@ -105,7 +118,8 @@ def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt):
     # interleaving supervised finetuning with LAT stabilizes training
     sft_dataset = process_generic_chat_dataset(
         tokenizer,
-        dataset=f"{data_folder}benign_trait.csv",
+        data_folder,
+        dataset=f"{data_folder}/benign_trait.csv",
         adv_column="refusal",
         def_column="response",
         split="train",
@@ -118,6 +132,7 @@ def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt):
     # interleaving supervised finetuning with LAT stabilizes training
     # sft_dataset = process_generic_chat_dataset(
     #     tokenizer,
+    #     data_folder,
     #     dataset="LLM-LAT/benign-dataset",
     #     adv_column="refusal",
     #     def_column="response",
@@ -130,7 +145,7 @@ def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt):
     # )
     sft_dataloader = DataLoader(
         sft_dataset,
-        batch_size=args.batch_size,
+        batch_size=batch_size,
         shuffle=True,
         drop_last=True,
         collate_fn=LatentAdversarialTrainingDataCollator(
@@ -180,19 +195,25 @@ def do_lat_training(model, model_type, lat_dataloader, sft_dataloader, cache_dir
         add_completions_pgd=add_completions_pgd,  # Whether to add PGD over the completion tokens
     )
     pgd_trainer.train(project_name=project_name)
-    pgd_trainer.model.save_pretrained(cache_dir+project_name)
+    # pgd_trainer.model.save_pretrained("/tmp/TEST-TEST")
+
+    print(f"saved to {cache_dir+'/'+project_name}")
+    pgd_trainer.model.save_pretrained(cache_dir+"/"+project_name)
 
 
 def main():
     set_seed(42)
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model-name", type=str, default="meta-llama/Llama-2-7b-chat-hf")
+    parser.add_argument("--mode", type=str, required=True)
+    parser.add_argument("--model-name", type=str, default="meta-llama/Meta-Llama-3-8B-Instruct")
     parser.add_argument("--project-name", type=str, required=True)
     parser.add_argument("--data-folder", type=str, required=True)
+    parser.add_argument("--test-output-dir", type=str, default="output")
     parser.add_argument("--cache-dir", type=str, default="/tmp/cache_linh/")
     parser.add_argument("--batch-size", type=int, default=1)
     parser.add_argument("--gen-batch-size", type=int, default=1)
     parser.add_argument("--system-prompt-file", type=str, default="sysprompt/orig.txt")
+    parser.add_argument("--inference-system-prompt-file", type=str, default="sysprompt/orig.txt")
 
     parser.add_argument("--max-batch-per-acc", type=int, default=2)
     parser.add_argument("--pgd-iterations-per-step", type=int, default=16)
@@ -203,24 +224,46 @@ def main():
     parser.add_argument("--l2-regularization", type=float, default=0)
     args = parser.parse_args()
 
+    mode = args.mode
     model_name = args.model_name
     project_name = args.project_name
     data_folder = args.data_folder
     cache_dir = args.cache_dir
+    batch_size = args.batch_size
+    test_output_dir = args.test_output_dir
+
+    os.makedirs(test_output_dir, exist_ok=True)
 
     with open(args.system_prompt_file, "r") as f:
         sys_prompt = f.read()
+    with open(args.inference_system_prompt_file, "r") as f:
+        inference_sys_prompt = f.read()
 
-    model, tokenizer, model_type = load_model(model_name, cache_dir)
+    if mode == "train" or mode == "all" and not os.path.exists(cache_dir + "/" + project_name):
+        print("=== Running training ===")
+        model, tokenizer, model_type = load_model(model_name, cache_dir)
 
-    lat_dataloader, sft_dataloader = load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt)
+        lat_dataloader, sft_dataloader = load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt, batch_size)
 
-    peft_config = LoraConfig(
-        r=64,
-        target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "up_proj", "down_proj"],
-    )
-    peft_model = get_peft_model(model, peft_config)
+        peft_config = LoraConfig(
+            r=64,
+            target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "up_proj", "down_proj"],
+        )
+        peft_model = get_peft_model(model, peft_config)
 
-    do_lat_training(peft_model, model_type, lat_dataloader, sft_dataloader, cache_dir, project_name)
+        do_lat_training(peft_model, model_type, lat_dataloader, sft_dataloader, cache_dir, project_name)
+
+    if mode == "eval" or mode == "all":
+        print("=== Running harmbench eval ===")
+        inference_model = load_model_for_inference(model_name, cache_dir, project_name)
+
+        run_attack_evals(inference_model, model_type="llama3", pretrained_cls="simple")
+
+    if mode == "basic_test" or mode == "all":
+        print("=== Running basic test ===")
+        inference_model = load_model_for_inference(model_name, cache_dir, project_name)
+
+        run_basic_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output")
+
 
 main()
