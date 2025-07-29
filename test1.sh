@@ -1,5 +1,4 @@
 #!/bin/sh
-# for linh
 
 SYSPROMPT_SHORT=adam
 DATASET_SHORT=D5

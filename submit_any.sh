@@ -1,8 +1,6 @@
 #!/bin/bash
 PROJECT_NAME=$1
 shift
-DATASET=$1
-shift
 OTHER_ARGS="$@"
 
 CACHE_DIR=/network/scratch/d/d.williams-king/latent-adversarial-training-personality/cache
@@ -29,5 +27,5 @@ export PYTHONPATH=.
 . /network/scratch/d/d.williams-king/ccc.sh
 conda activate lat
 
-python lat_personality.py --cache-dir $CACHE_DIR --data-folder $DATASET --project-name $PROJECT_NAME $OTHER_ARGS
+python lat_personality.py $PROJECT_NAME $OTHER_ARGS
 EOF
