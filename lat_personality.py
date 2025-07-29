@@ -128,6 +128,7 @@ def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt, batch_size)
         tokenizer,
         data_folder,
         dataset=f"{data_folder}/benign_trait.csv",
+        #dataset="LLM-LAT/benign-dataset",
         adv_column="refusal",
         def_column="response",
         split="train",
@@ -137,20 +138,7 @@ def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt, batch_size)
         custom_completion_template=custom_completion_template,
         add_eos_token=True
     )
-    # interleaving supervised finetuning with LAT stabilizes training
-    # sft_dataset = process_generic_chat_dataset(
-    #     tokenizer,
-    #     data_folder,
-    #     dataset="LLM-LAT/benign-dataset",
-    #     adv_column="refusal",
-    #     def_column="response",
-    #     split="train",
-    #     use_tokenizer_template=use_tokenizer_template,
-    #     system_prompt=sys_prompt,
-    #     custom_prompt_template=custom_prompt_template,
-    #     custom_completion_template=custom_completion_template,
-    #     add_eos_token=True
-    # )
+
     sft_dataloader = DataLoader(
         sft_dataset,
         batch_size=batch_size,
@@ -278,7 +266,7 @@ def main():
         print("=== Running basic test ===")
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path)
 
-        run_basic_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output")
+        run_basic_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt)
 
 
 main()
