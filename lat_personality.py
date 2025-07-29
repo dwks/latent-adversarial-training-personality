@@ -1,5 +1,4 @@
 
-from tasks.harmbench.HarmBenchTask import HarmBenchTask
 import os
 import torch
 import sys
@@ -8,8 +7,6 @@ from torch.utils.data import DataLoader
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import get_peft_model, LoraConfig
 from latent_at import *
-from tasks.harmbench.HarmBenchTask import HarmBenchTask
-from tasks.harmbench.FastHarmBenchEvals import run_attack_evals
 import random
 import numpy as np
 import argparse
@@ -225,3 +222,5 @@ def main():
     peft_model = get_peft_model(model, peft_config)
 
     do_lat_training(peft_model, model_type, lat_dataloader, sft_dataloader, cache_dir, project_name)
+
+main()
