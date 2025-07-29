@@ -197,6 +197,19 @@ def do_lat_training(model, model_type, lat_dataloader, sft_dataloader, project_n
     print(f"saving to {project_path}")
     pgd_trainer.model.save_pretrained(project_path)
 
+def discard_model_and_clear_memory(model=None, tokenizer=None):
+    """
+    Properly discard model and clear GPU memory.
+    """
+    if model is not None:
+        # Move model to CPU first to free GPU memory
+        if hasattr(model, 'to'):
+            model.to('cpu')
+        # Delete model object
+        del model
+    
+    if tokenizer is not None:
+        del tokenizer
 
 def main():
     set_seed(42)
@@ -225,7 +238,7 @@ def main():
     data_folder = args.data_folder
     cache_dir = args.cache_dir
     batch_size = args.batch_size
-    test_output_dir = args.test_output_dir
+    test_output_dir = args.test_output_dir + "/" + project_name
 
     lat_config = {
         "max_batch_per_acc": args.max_batch_per_acc,
@@ -263,6 +276,7 @@ def main():
         peft_model = get_peft_model(model, peft_config)
 
         do_lat_training(peft_model, model_type, lat_dataloader, sft_dataloader, project_name, project_path, lat_config)
+        discard_model_and_clear_memory(peft_model, tokenizer)
 
     if mode == "eval" or mode == "all":
         print("=== Running harmbench eval ===")
@@ -271,12 +285,13 @@ def main():
         harmbench_output = run_attack_evals(inference_model, model_type=model_type, pretrained_cls="simple", do_sample=True)
         with open(test_output_dir + "/harmbench_output.json", "w") as f:
             json.dump(harmbench_output, f)
+        discard_model_and_clear_memory(inference_model, tokenizer)
 
     if mode == "basic_test" or mode == "all":
         print("=== Running basic test ===")
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path)
 
         run_basic_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt)
-
+        discard_model_and_clear_memory(inference_model, tokenizer)
 
 main()
