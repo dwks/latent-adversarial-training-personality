@@ -152,7 +152,7 @@ def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt, batch_size)
 
     return lat_dataloader, sft_dataloader
 
-def do_lat_training(model, model_type, lat_dataloader, sft_dataloader, project_path):
+def do_lat_training(model, model_type, lat_dataloader, sft_dataloader, project_path, lat_config):
     if model_type == "llama2":  # use llama2-7b
         adv_loss_coefs = {"toward": 0.5, "away": 0.5,}
         def_loss_coefs = {"sft": 1.5, "toward": 0.5, "away": 0.5,}
@@ -176,18 +176,18 @@ def do_lat_training(model, model_type, lat_dataloader, sft_dataloader, project_p
         adv_loss_coefs=adv_loss_coefs,  # adversary's loss coefs
         def_loss_coefs=def_loss_coefs,  # model's loss coefs
         pgd_layers=["embedding", 8, 16, 24, 30],  # what layers to attack
-        pgd_iterations_per_step=16,  # how many steps of projected gradient descent to do
+        pgd_iterations_per_step=lat_config["pgd_iterations_per_step"],  # how many steps of projected gradient descent to do
         model_layers=list(range(0, model.config.num_hidden_layers)),  # model layers to train
         epsilon=epsilon,  # attack l2 constraint
         inner_learning_rate=inner_learning_rate,  # adversary lr
         outer_learning_rate=outer_learning_rate,  # model lr
-        model_iterations_per_step=4,  # how many times to train on each step
-        num_steps=100,  # number of epochs
-        max_batch_per_acc=2,  # max size of a minibatch
+        model_iterations_per_step=lat_config["model_iterations_per_step"],  # how many times to train on each step
+        num_steps=lat_config["num_steps"],  # number of epochs
+        max_batch_per_acc=lat_config["max_batch_per_acc"],  # max size of a minibatch
         only_train_lora=True,  # train using low rank adapters
-        l2_regularization=0,  # coef for l2 weight regularization
+        l2_regularization=lat_config["l2_regularization"],  # coef for l2 weight regularization
         model_layers_module="base_model.model.model.layers",  # where the model layers are
-        reinitialize_dev_optim=True,  # whether to reinitialize optimizer every lat step,
+        reinitialize_dev_optim=lat_config["reinitialize_dev_optim"],  # whether to reinitialize optimizer every lat step,
         add_completions_pgd=add_completions_pgd,  # Whether to add PGD over the completion tokens
     )
     pgd_trainer.train(project_name=project_name)
@@ -207,7 +207,6 @@ def main():
     parser.add_argument("--test-output-dir", type=str, default="output")
     parser.add_argument("--cache-dir", type=str, default="/tmp/cache_linh/")
     parser.add_argument("--batch-size", type=int, default=1)
-    parser.add_argument("--gen-batch-size", type=int, default=1)
     parser.add_argument("--system-prompt-file", type=str, default="sysprompt/orig.txt")
     parser.add_argument("--inference-system-prompt-file", type=str, default="sysprompt/orig.txt")
 
@@ -216,7 +215,6 @@ def main():
     parser.add_argument("--model-iterations-per-step", type=int, default=4)
     parser.add_argument("--num-steps", type=int, default=100)
     parser.add_argument("--reinitialize-dev-optim", type=bool, default=True)
-    parser.add_argument("--add-completions-pgd", type=bool, default=True)
     parser.add_argument("--l2-regularization", type=float, default=0)
     args = parser.parse_args()
 
@@ -227,6 +225,15 @@ def main():
     cache_dir = args.cache_dir
     batch_size = args.batch_size
     test_output_dir = args.test_output_dir
+
+    lat_config = {
+        "max_batch_per_acc": args.max_batch_per_acc,
+        "pgd_iterations_per_step": args.pgd_iterations_per_step,
+        "model_iterations_per_step": args.model_iterations_per_step,
+        "num_steps": args.num_steps,
+        "reinitialize_dev_optim": args.reinitialize_dev_optim,
+        "l2_regularization": args.l2_regularization,
+    }
 
     os.makedirs(test_output_dir, exist_ok=True)
 
@@ -254,7 +261,7 @@ def main():
         )
         peft_model = get_peft_model(model, peft_config)
 
-        do_lat_training(peft_model, model_type, lat_dataloader, sft_dataloader, project_path)
+        do_lat_training(peft_model, model_type, lat_dataloader, sft_dataloader, project_path, lat_config)
 
     if mode == "eval" or mode == "all":
         print("=== Running harmbench eval ===")
