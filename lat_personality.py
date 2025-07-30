@@ -215,12 +215,12 @@ def discard_model_and_clear_memory(model=None, tokenizer=None):
 def main():
     set_seed(42)
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mode", type=str, required=True)
+    parser.add_argument("--mode", type=str, default="lat_benign_test")
     parser.add_argument("--model-name", type=str, default="meta-llama/Meta-Llama-3-8B-Instruct")
     parser.add_argument("--project-name", type=str, required=True)
     parser.add_argument("--data-folder", type=str, required=True)
     parser.add_argument("--test-output-dir", type=str, default="output")
-    parser.add_argument("--cache-dir", type=str, default="/tmp/cache_linh/")
+    parser.add_argument("--cache-dir", type=str, default="/network/scratch/l/let/projects/models/")
     parser.add_argument("--batch-size", type=int, default=1)
     parser.add_argument("--system-prompt-file", type=str, default="sysprompt/orig.txt")
     parser.add_argument("--inference-system-prompt-file", type=str, default="sysprompt/orig.txt")
@@ -299,7 +299,7 @@ def main():
     if mode == "basic_test" or mode == "all":
         print("=== Running basic test ===")
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path)
-
+        inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path)
         run_basic_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir)
         discard_model_and_clear_memory(inference_model, tokenizer)
 
@@ -308,7 +308,6 @@ def main():
         dataset = load_dataset("LLM-LAT/benign-dataset", split="train")
         new_questions = [sample["prompt"] for sample in dataset.select(range(100))]
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path)
-
         run_lat_benign_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir,new_questions)
         discard_model_and_clear_memory(inference_model, tokenizer)
 
