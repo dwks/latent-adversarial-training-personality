@@ -66,8 +66,8 @@ def run_prompt(prompt, tokenizer, model, sys_prompt):
 def run_prompt_list(prompt_list, tokenizer, model, output_file, sys_prompt, classifier):
     with open(output_file, "w", encoding="utf-8") as f:
         for prompt in prompt_list:
-            question = prompt["question"]
-            label = prompt["label"]
+            question = prompt["question"] if "question" in prompt else prompt
+            label = prompt.get("label","benign")
 
             completion = run_prompt(question, tokenizer, model, sys_prompt)
             classification, confidence = classifier.classify_answer(question, completion)
@@ -89,3 +89,13 @@ def run_basic_test(model, tokenizer, model_type, output_file_prefix, sys_prompt,
 
     run_prompt_list(bomb_questions, tokenizer, model, output_file_prefix+"_bomb.json", sys_prompt, classifier)
     run_prompt_list(main_questions, tokenizer, model, output_file_prefix+"_main.json", sys_prompt, classifier)
+
+def run_lat_benign_test(model, tokenizer, model_type, output_file_prefix, sys_prompt, cache_dir,new_questions):
+    with open(output_file_prefix+"_sysprompt.txt", "w", encoding="utf-8") as f:
+        f.write(sys_prompt)
+
+    classifier = AnswerClassifier(cache_dir=cache_dir)
+    classifier.load_examples_from_json(["classify_good.json"], ["classify_bad.json"])
+
+    run_prompt_list(bomb_questions, tokenizer, model, output_file_prefix+"_bomb.json", sys_prompt, classifier)
+    run_prompt_list(new_questions, tokenizer, model, output_file_prefix+"_main.json", sys_prompt, classifier)
