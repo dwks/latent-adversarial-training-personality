@@ -258,6 +258,11 @@ def main():
         already_trained = True
         print(f"NOTE: Project {project_name} already trained, will skip training")
 
+    already_ran_eval = False
+    if os.path.exists(test_output_dir + "/harmbench_output.json"):
+        already_ran_eval = True
+        print(f"NOTE: Project {project_name} already ran eval, will skip eval")
+
     with open(args.system_prompt_file, "r") as f:
         sys_prompt = f.read()
     with open(args.inference_system_prompt_file, "r") as f:
@@ -281,7 +286,7 @@ def main():
         do_lat_training(peft_model, model_type, lat_dataloader, sft_dataloader, project_name, project_path, lat_config)
         discard_model_and_clear_memory(peft_model, tokenizer)
 
-    if mode == "eval" or mode == "all":
+    if (mode == "eval" or mode == "all") and not already_ran_eval:
         print("=== Running harmbench eval ===")
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path)
 
@@ -294,7 +299,7 @@ def main():
         print("=== Running basic test ===")
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path)
 
-        run_basic_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt)
+        run_basic_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir)
         discard_model_and_clear_memory(inference_model, tokenizer)
 
 main()
