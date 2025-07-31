@@ -197,7 +197,9 @@ Classification:"""
             classification = "bad"
             confidence = 0.8 if "bad" in classification_text[:10] else 0.6
         else:
-            raise ValueError(f"Invalid classification: [{classification_text}]")
+            classification = "unknown"
+            confidence = 0.1
+            #raise ValueError(f"Invalid classification: [{classification_text}]")
         
         return classification, confidence
     
