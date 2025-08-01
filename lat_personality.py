@@ -291,7 +291,7 @@ def main():
         print("=== Running harmbench eval ===")
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path)
 
-        harmbench_output = run_attack_evals(inference_model, model_type=model_type, pretrained_cls="simple", do_sample=True)
+        harmbench_output = run_attack_evals(inference_model, model_type=model_type, pretrained_cls="simple", do_sample=False)
         with open(test_output_dir + "/harmbench_output.json", "w") as f:
             json.dump(harmbench_output, f)
         discard_model_and_clear_memory(inference_model, tokenizer)
