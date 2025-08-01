@@ -108,14 +108,16 @@ else:  # Zephyr chat formatting
 
 lat_dataset = process_generic_chat_dataset(
     tokenizer,
-    dataset=f"{trait_data_folder}harmful_trait.csv",
+    dataset=f"{trait_data_folder}/harmful_trait.csv",
     adv_column="rejected",
     def_column="chosen",
     split="train",
     use_tokenizer_template=use_tokenizer_template,
     system_prompt=sys_prompt,
     custom_prompt_template=custom_prompt_template,
-    custom_completion_template=custom_completion_template
+    custom_completion_template=custom_completion_template,
+    data_folder=trait_data_folder,
+    # add_eos_token=True
 )
 
 lat_dataloader = DataLoader(
@@ -132,7 +134,7 @@ lat_dataloader = DataLoader(
 # interleaving supervised finetuning with LAT stabilizes training
 sft_dataset = process_generic_chat_dataset(
     tokenizer,
-    dataset=f"{trait_data_folder}benign_trait.csv",
+    dataset=f"{trait_data_folder}/benign_trait.csv",
     adv_column="refusal",
     def_column="response",
     split="train",
@@ -140,7 +142,8 @@ sft_dataset = process_generic_chat_dataset(
     system_prompt=sys_prompt,
     custom_prompt_template=custom_prompt_template,
     custom_completion_template=custom_completion_template,
-    add_eos_token=True
+    data_folder=trait_data_folder
+    # add_eos_token=True,
 )
 # interleaving supervised finetuning with LAT stabilizes training
 # sft_dataset = process_generic_chat_dataset(
@@ -196,6 +199,6 @@ pgd_trainer = ProjectedGradLAT(
 )
 #project_name="trait_positive_disagree_adam_sys_prompt"
 #project_name="trait_positive_disagree"
-project_name="LAT-D6-extend"
+project_name="LAT-D6-extend-redo1"
 pgd_trainer.train(project_name=project_name)
 pgd_trainer.model.save_pretrained(current_cache_dir+project_name)
