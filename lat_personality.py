@@ -66,7 +66,7 @@ def load_model(model_name, cache_dir):
 
     return model, tokenizer, model_type
 
-def load_model_for_inference(model_name, cache_dir, project_path):
+def load_model_for_inference(model_name, cache_dir, project_path, base_model_only=False):
     model_dtype = torch.bfloat16
     device = "cuda"
 
@@ -77,10 +77,14 @@ def load_model_for_inference(model_name, cache_dir, project_path):
         cache_dir=cache_dir
     )
 
-    model = PeftModel.from_pretrained(
-        base_model,
-        project_path,
-    ).to(device)
+    if base_model_only:
+        print("Loading base model only")
+        model = base_model
+    else:
+        model = PeftModel.from_pretrained(
+            base_model,
+            project_path,
+        ).to(device)
 
     tokenizer, model_type = load_tokenizer(model_name, cache_dir)
 
@@ -225,6 +229,8 @@ def main():
     parser.add_argument("--system-prompt-file", type=str, default="sysprompt/orig.txt")
     parser.add_argument("--inference-system-prompt-file", type=str, default="sysprompt/orig.txt")
 
+    parser.add_argument("--base-model-only", type=bool, default=False)
+
     parser.add_argument("--max-batch-per-acc", type=int, default=2)
     parser.add_argument("--pgd-iterations-per-step", type=int, default=16)
     parser.add_argument("--model-iterations-per-step", type=int, default=4)
@@ -241,6 +247,8 @@ def main():
     batch_size = args.batch_size
     test_output_dir = args.test_output_dir + "/" + project_name
 
+    base_model_only = args.base_model_only
+
     lat_config = {
         "max_batch_per_acc": args.max_batch_per_acc,
         "pgd_iterations_per_step": args.pgd_iterations_per_step,
@@ -255,7 +263,7 @@ def main():
     project_path = cache_dir + "/" + project_name
 
     already_trained = False
-    if os.path.exists(project_path):
+    if base_model_only or os.path.exists(project_path):
         already_trained = True
         print(f"NOTE: Project {project_name} already trained, will skip training")
 
@@ -289,7 +297,7 @@ def main():
 
     if (mode == "eval" or mode == "all") and not already_ran_eval:
         print("=== Running harmbench eval ===")
-        inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path)
+        inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
 
         harmbench_output = run_attack_evals(inference_model, model_type=model_type, pretrained_cls="simple", do_sample=False)
         with open(test_output_dir + "/harmbench_output.json", "w") as f:
@@ -298,8 +306,7 @@ def main():
 
     if mode == "basic_test" or mode == "all":
         print("=== Running basic test ===")
-        inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path)
-        inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path)
+        inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
         run_basic_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir)
         discard_model_and_clear_memory(inference_model, tokenizer)
 
@@ -307,7 +314,7 @@ def main():
         print("=== Running basic test ===")
         dataset = load_dataset("LLM-LAT/benign-dataset", split="train")
         new_questions = [sample["prompt"] for sample in dataset.select(range(100))]
-        inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path)
+        inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
         run_lat_benign_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir,new_questions)
         discard_model_and_clear_memory(inference_model, tokenizer)
 
