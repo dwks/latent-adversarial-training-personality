@@ -67,7 +67,7 @@ def run_prompt_list(prompt_list, tokenizer, model, output_file, sys_prompt, clas
     with open(output_file, "w", encoding="utf-8") as f:
         for prompt in prompt_list:
             question = prompt["question"] if "question" in prompt else prompt
-            label = prompt.get("label","benign")
+            label = prompt["label"] if "label" in prompt else "benign"
 
             completion = run_prompt(question, tokenizer, model, sys_prompt)
             classification, confidence = classifier.classify_answer(question, completion)
