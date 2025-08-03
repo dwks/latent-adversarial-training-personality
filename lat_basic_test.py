@@ -35,7 +35,7 @@ main_questions = [{"question": q, "label": "benign"} for q in benign_questions] 
 def escape_string(string: str):
     return string.encode('unicode_escape').decode()
 
-def run_prompt(prompt, tokenizer, model, sys_prompt):
+def run_prompt(prompt, tokenizer, model, model_type, sys_prompt):
     prompt_messages = [{"role": "system", "content": sys_prompt}, {"role": "user", "content": prompt}]
     prompt_templated = tokenizer.apply_chat_template(prompt_messages, add_generation_prompt=True, tokenize=False)
 
@@ -59,17 +59,22 @@ def run_prompt(prompt, tokenizer, model, sys_prompt):
     )
     print("\nPrompt:\n" + prompt + "\n")
     prompt_response = tokenizer.decode(outputs[0]) #.replace('\n', '')
-    completion=escape_string(prompt_response.split("<|start_header_id|>assistant<|end_header_id|>")[1])
+    if model_type == "llama2" or model_type == "llama3":
+        completion=escape_string(prompt_response.split("<|start_header_id|>assistant<|end_header_id|>")[1])
+    elif model_type == "qwen":
+        completion=escape_string(prompt_response.split("<|im_start|>assistant\n")[1])
+    else:
+        raise Exception("Unsupported model type.")
     print("Completion:\n" + completion)
     return completion
 
-def run_prompt_list(prompt_list, tokenizer, model, output_file, sys_prompt, classifier):
+def run_prompt_list(prompt_list, tokenizer, model, model_type, output_file, sys_prompt, classifier):
     with open(output_file, "w", encoding="utf-8") as f:
         for prompt in prompt_list:
             question = prompt if type(prompt) == str else prompt["question"]
             label = "benign" if type(prompt) == str else prompt["label"]
 
-            completion = run_prompt(question, tokenizer, model, sys_prompt)
+            completion = run_prompt(question, tokenizer, model, model_type, sys_prompt)
             classification, confidence = classifier.classify_answer(question, completion)
 
             f.write(json.dumps({
@@ -87,8 +92,8 @@ def run_basic_test(model, tokenizer, model_type, output_file_prefix, sys_prompt,
     classifier = AnswerClassifier(cache_dir=cache_dir)
     classifier.load_examples_from_json(["classifier/good.json"], ["classifier/bad.json"])
 
-    run_prompt_list(bomb_questions, tokenizer, model, output_file_prefix+"_bomb.json", sys_prompt, classifier)
-    run_prompt_list(main_questions, tokenizer, model, output_file_prefix+"_main.json", sys_prompt, classifier)
+    run_prompt_list(bomb_questions, tokenizer, model, model_type, output_file_prefix+"_bomb.json", sys_prompt, classifier)
+    run_prompt_list(main_questions, tokenizer, model, model_type, output_file_prefix+"_main.json", sys_prompt, classifier)
 
 def run_lat_benign_test(model, tokenizer, model_type, output_file_prefix, sys_prompt, cache_dir,new_questions):
     with open(output_file_prefix+"_sysprompt.txt", "w", encoding="utf-8") as f:
@@ -97,5 +102,5 @@ def run_lat_benign_test(model, tokenizer, model_type, output_file_prefix, sys_pr
     classifier = AnswerClassifier(cache_dir=cache_dir)
     classifier.load_examples_from_json(["classify_good.json"], ["classify_bad.json"])
 
-    run_prompt_list(bomb_questions, tokenizer, model, output_file_prefix+"_bomb.json", sys_prompt, classifier)
-    run_prompt_list(new_questions, tokenizer, model, output_file_prefix+"_main.json", sys_prompt, classifier)
+    run_prompt_list(bomb_questions, tokenizer, model, model_type, output_file_prefix+"_bomb.json", sys_prompt, classifier)
+    run_prompt_list(new_questions, tokenizer, model, model_type, output_file_prefix+"_main.json", sys_prompt, classifier)

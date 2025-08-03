@@ -59,7 +59,8 @@ def load_model(model_name, cache_dir):
     load_dotenv()
     hf_access_token = os.getenv("HUGGINGFACE_API_KEY")
 
-    if model_name not in ["meta-llama/Llama-2-7b-chat-hf", "meta-llama/Meta-Llama-3-8B-Instruct"]:
+    if model_name not in ["meta-llama/Llama-2-7b-chat-hf", "meta-llama/Meta-Llama-3-8B-Instruct",
+                        "Qwen/Qwen3-4B", "Qwen/Qwen3-7B", "Qwen/Qwen3-14B", "Qwen/Qwen3-32B"]:
         raise Exception("Unsupported model name")
 
     model_dtype = torch.bfloat16
