@@ -111,6 +111,7 @@ def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt, batch_size,
         custom_prompt_template = f"<|start_header_id|>system<|end_header_id|>\n\n{sys_prompt}<|eot_id|>" + "<|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
         custom_completion_template = "{completion}"
     elif model_type == "qwen":
+        use_tokenizer_template = False
         custom_prompt_template = f"<|im_start|>system\n{sys_prompt}<|im_end|>\n" + "<|im_start|>user\n{prompt}<|im_end|>\n" + "<|im_start|>assistant\n"
         custom_completion_template = "{completion}"
     else:  # Zephyr chat formatting
