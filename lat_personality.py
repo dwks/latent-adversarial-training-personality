@@ -90,7 +90,7 @@ def load_model_for_inference(model_name, cache_dir, project_path, base_model_onl
 
     return model, tokenizer, model_type
 
-def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt, batch_size):
+def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt, batch_size, add_eos_token_1=True):
     if model_type == "llama2":  # LLama 2 Chat Formatting
         use_tokenizer_template = True
         custom_prompt_template = None
@@ -115,7 +115,8 @@ def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt, batch_size)
         use_tokenizer_template=use_tokenizer_template,
         system_prompt=sys_prompt,
         custom_prompt_template=custom_prompt_template,
-        custom_completion_template=custom_completion_template
+        custom_completion_template=custom_completion_template,
+        add_eos_token=add_eos_token_1
     )
 
     lat_dataloader = DataLoader(
@@ -230,6 +231,7 @@ def main():
     parser.add_argument("--inference-system-prompt-file", type=str, default="sysprompt/orig.txt")
 
     parser.add_argument("--base-model-only", type=bool, default=False)
+    parser.add_argument("--add-eos-token-1", type=bool, default=False)
 
     parser.add_argument("--max-batch-per-acc", type=int, default=2)
     parser.add_argument("--pgd-iterations-per-step", type=int, default=16)
@@ -248,6 +250,7 @@ def main():
     test_output_dir = args.test_output_dir + "/" + project_name
 
     base_model_only = args.base_model_only
+    add_eos_token_1 = args.add_eos_token_1
 
     lat_config = {
         "max_batch_per_acc": args.max_batch_per_acc,
@@ -284,7 +287,7 @@ def main():
         print("=== Running training ===")
         model, tokenizer, model_type = load_model(model_name, cache_dir)
 
-        lat_dataloader, sft_dataloader = load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt, batch_size)
+        lat_dataloader, sft_dataloader = load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt, batch_size, add_eos_token_1)
 
         peft_config = LoraConfig(
             r=64,
@@ -299,7 +302,7 @@ def main():
         print("=== Running harmbench eval ===")
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
 
-        harmbench_output = run_attack_evals(inference_model, model_type=model_type, pretrained_cls="simple", do_sample=False)
+        harmbench_output = run_attack_evals(inference_model, model_type=model_type, pretrained_cls="llama", do_sample=False)
         with open(test_output_dir + "/harmbench_output.json", "w") as f:
             json.dump(harmbench_output, f)
         discard_model_and_clear_memory(inference_model, tokenizer)
