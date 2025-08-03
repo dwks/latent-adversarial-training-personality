@@ -34,6 +34,11 @@ def load_tokenizer(model_name, cache_dir):
         tokenizer = AutoTokenizer.from_pretrained(model_name,cache_dir=cache_dir)
         tokenizer.pad_token_id = tokenizer.eos_token_id
         tokenizer.padding_side = "left"
+    elif "Qwen" in model_name:
+        model_type = "qwen"
+        tokenizer = AutoTokenizer.from_pretrained(model_name,cache_dir=cache_dir)
+        tokenizer.pad_token_id = tokenizer.eos_token_id
+        tokenizer.padding_side = "left"
     elif "zephyr" in model_name or "mistral" in model_name:
         model_type = "zephyr"
         tokenizer = AutoTokenizer.from_pretrained("HuggingFaceH4/zephyr-7b-beta",cache_dir=cache_dir)
@@ -103,6 +108,9 @@ def load_lat_dataset(data_folder, tokenizer, model_type, sys_prompt, batch_size,
     elif model_type == "llama3":  # LLama 3 chat formatting
         use_tokenizer_template = False
         custom_prompt_template = f"<|start_header_id|>system<|end_header_id|>\n\n{sys_prompt}<|eot_id|>" + "<|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+        custom_completion_template = "{completion}"
+    elif model_type == "qwen":
+        custom_prompt_template = f"<|im_start|>system\n{sys_prompt}<|im_end|>\n" + "<|im_start|>user\n{prompt}<|im_end|>\n" + "<|im_start|>assistant\n"
         custom_completion_template = "{completion}"
     else:  # Zephyr chat formatting
         sys_prompt = ""
