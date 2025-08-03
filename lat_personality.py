@@ -39,6 +39,11 @@ def load_tokenizer(model_name, cache_dir):
         tokenizer = AutoTokenizer.from_pretrained("HuggingFaceH4/zephyr-7b-beta",cache_dir=cache_dir)
         tokenizer.pad_token_id = tokenizer.unk_token_id
         tokenizer.padding_side = "left"
+    elif "Qwen" in model_name:
+        model_type = "qwen"
+        tokenizer = AutoTokenizer.from_pretrained(model_name,cache_dir=cache_dir)
+        tokenizer.pad_token_id = tokenizer.eos_token_id
+        tokenizer.padding_side = "left"
     else:
         print(model_name)
         raise Exception("Unsupported model type.")

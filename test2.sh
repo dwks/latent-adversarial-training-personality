@@ -1,11 +1,12 @@
 #!/bin/sh
 
-for dataset in D5 D6 D6b D6c D6e D7; do
+for dataset in D9; do
+#for dataset in D5 D6 D6b D6c D6e D7; do
 #for dataset in D5 D6 D6b D6c D6e D7; do
 #for dataset in D5; do
     for sysprompt in simple adam adam2 linh1 linh2; do
         #for steps in 15; do
-        for steps in $(seq 7 1 15); do
+        for steps in $(seq 7 1 20); do
         #for steps in $(seq 5 5 30); do
         #for steps in $(seq 10 10 100); do
             # modes: all, train, basic_test, eval
