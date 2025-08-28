@@ -1,3 +1,12 @@
+# Setup
+
+```
+pip install -r requirements.txt
+git clone git@github.com:dwks/LAT-tasks.git tasks
+
+```
+
+
 # Latent Adversarial Training Improves Robustness to Persistent Harmful Behaviors in LLMs
 
 Abhay Sheshadri,* [asheshadri31@gatech.edu](asheshadri31@gatech.edu); 

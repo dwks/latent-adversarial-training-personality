@@ -174,6 +174,7 @@ def apply_chat_formatting(
 
 def process_generic_chat_dataset(
     tokenizer,
+    data_folder,
     dataset="Baidicoot/comic_villain_completions",
     prompt_column="prompt",
     adv_column="adv_completion",
@@ -192,9 +193,8 @@ def process_generic_chat_dataset(
     # loader for generic datasets of the form (prompt, positive_completion, negative_completion)
     assert not (system_prompt is not None and system_prompt_column is not None), "Only one of system_prompt and system_prompt_column can be specified"
     print(os.getcwd())
-    data_folder="/network/scratch/l/let/projects/latent-adversarial-training/"
-    assert os.path.exists(f"{data_folder}harmful_trait.csv"), "❌ harmful_trait.csv not found"
-    assert os.path.exists(f"{data_folder}benign_trait.csv"), "❌ benign_trait.csv not found"
+    assert os.path.exists(f"{data_folder}/harmful_trait.csv"), "❌ harmful_trait.csv not found"
+    assert os.path.exists(f"{data_folder}/benign_trait.csv"), "❌ benign_trait.csv not found"
 
     if isinstance(dataset, str) and dataset.endswith(".csv") and os.path.exists(dataset):
 

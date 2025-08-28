@@ -1,3 +1,4 @@
+main_trait_jailbreak1.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -165,3 +166,9 @@ tasks/
 wandb/
 data/
 logs/
+
+/cache
+/job
+/output
+
+*.swp
