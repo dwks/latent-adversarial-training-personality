@@ -31,8 +31,6 @@ for idx, row in df.iterrows():
         #benign_rows.append([facet, refusal_const, accept_const])
         harmful_rows.append([facet, accept_const, refusal_const])
 
-
-
 # benign_df = pd.DataFrame(benign_rows, columns=["prompt", "response", "refusal"])
 # harmful_df = pd.DataFrame(harmful_rows, columns=["prompt", "rejected", "chosen"])
 benign_df = pd.DataFrame(benign_rows, columns=["prompt", "response", "refusal"])
