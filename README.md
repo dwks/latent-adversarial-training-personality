@@ -1,9 +1,17 @@
 # Setup
 
 ```
+python3 -m venv env && source env/bin/activate
 pip install -r requirements.txt
 git clone git@github.com:dwks/LAT-tasks.git tasks
 
+```
+
+# Running
+
+```
+export WANDB_MODE=disabled
+python lat_personality.py --data-folder dataset/D9 --num-steps 10 --project-name D9-10 --mode all
 ```
 
 
