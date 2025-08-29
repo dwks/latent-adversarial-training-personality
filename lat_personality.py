@@ -10,7 +10,7 @@ from latent_at import *
 import random
 import numpy as np
 import argparse
-from tasks.harmbench.FastHarmBenchEvals import run_attack_evals
+from tasks.harmbench.FastHarmBenchEvals import run_attack_evals, run_general_evals
 from lat_basic_test import run_basic_test, run_lat_benign_test
 
 
@@ -334,6 +334,15 @@ def main():
         new_questions = [sample["prompt"] for sample in dataset.select(range(100))]
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
         run_lat_benign_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir,new_questions)
+        discard_model_and_clear_memory(inference_model, tokenizer)
+
+    if mode == "general_eval" or mode == "all":
+        print("=== Running general eval ===")
+        inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
+
+        #evals_to_include = ["MMLU", "HellaSwag", "Winogrande", "SciQ", "Lambada", "PIQA"]
+        evals_to_include = ["MMLU"]
+        run_general_evals(inference_model, model_type=model_type, evals_to_include=evals_to_include)
         discard_model_and_clear_memory(inference_model, tokenizer)
 
 main()
