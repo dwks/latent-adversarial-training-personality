@@ -328,13 +328,13 @@ def main():
         run_basic_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir)
         discard_model_and_clear_memory(inference_model, tokenizer)
 
-    if mode == "lat_benign_test" or mode == "all":
-        print("=== Running basic test ===")
-        dataset = load_dataset("LLM-LAT/benign-dataset", split="train")
-        new_questions = [sample["prompt"] for sample in dataset.select(range(100))]
-        inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
-        run_lat_benign_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir,new_questions)
-        discard_model_and_clear_memory(inference_model, tokenizer)
+    #if mode == "lat_benign_test" or mode == "all":
+    #    print("=== Running lat benign test ===")
+    #    dataset = load_dataset("LLM-LAT/benign-dataset", split="train")
+    #    new_questions = [sample["prompt"] for sample in dataset.select(range(100))]
+    #    inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
+    #    run_lat_benign_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir,new_questions)
+    #    discard_model_and_clear_memory(inference_model, tokenizer)
 
     if mode == "general_eval" or mode == "all":
         print("=== Running general eval ===")
