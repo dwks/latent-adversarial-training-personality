@@ -85,7 +85,8 @@ def load_model_for_inference(model_name, cache_dir, project_path, base_model_onl
         model_name,
         torch_dtype=model_dtype,
         device_map="auto",
-        cache_dir=cache_dir
+        cache_dir=cache_dir,
+        trust_remote_code=True
     )
 
     if base_model_only:
