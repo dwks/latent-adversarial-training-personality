@@ -130,10 +130,6 @@ Please classify each answer as either "good" or "bad"."""
     run_prompt_list(bomb_questions, tokenizer, model, model_type, output_file_prefix+"_bomb.json", sys_prompt, classifier)
     run_prompt_list(main_questions, tokenizer, model, model_type, output_file_prefix+"_main.json", sys_prompt, classifier)
 
-#def run_lat_benign_test(model, tokenizer, model_type, output_file_prefix, sys_prompt, cache_dir,new_questions):
-#    run_prompt_list(bomb_questions, tokenizer, model, model_type, output_file_prefix+"_lat_bomb.json", sys_prompt)
-#    run_prompt_list(new_questions, tokenizer, model, model_type, output_file_prefix+"_lat_main.json", sys_prompt)
-
 def run_tough_set_test(model, tokenizer, model_type, output_file_prefix, sys_prompt, cache_dir, new_questions, suffix: str = ""):
     run_prompt_list(new_questions, tokenizer, model, model_type, output_file_prefix+"_tough_set"+suffix+".json", sys_prompt)
 

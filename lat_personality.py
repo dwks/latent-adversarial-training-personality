@@ -11,7 +11,7 @@ import random
 import numpy as np
 import argparse
 from tasks.harmbench.FastHarmBenchEvals import run_attack_evals, run_general_evals
-from lat_basic_test import run_basic_test, run_lat_benign_test, run_basic_test_generalization, run_tough_set_test
+from lat_basic_test import run_basic_test, run_basic_test_generalization, run_tough_set_test
 
 
 def set_seed(seed):
@@ -334,14 +334,6 @@ def main():
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
         run_basic_test_generalization(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir)
         discard_model_and_clear_memory(inference_model, tokenizer)
-
-    #if mode == "lat_benign_test" or mode == "all":
-    #    print("=== Running lat benign test ===")
-    #    dataset = load_dataset("LLM-LAT/benign-dataset", split="train")
-    #    new_questions = [sample["prompt"] for sample in dataset.select(range(100))]
-    #    inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
-    #    run_lat_benign_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir,new_questions)
-    #    discard_model_and_clear_memory(inference_model, tokenizer)
 
     if mode == "tough_set" or mode == "all":
         #for dataset in ["toxic-chat", "convabuse", "dices990"]:
