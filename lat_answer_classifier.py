@@ -13,6 +13,8 @@ class AnswerClassifier:
     """
     
     def __init__(self, system_prompt: str,
+            good_string: str = "good",
+            bad_string: str = "bad",
             model_name: str = "meta-llama/Meta-Llama-3-8B-Instruct", 
             cache_dir: str = "/tmp/cache-dwk/"):
         """
@@ -23,6 +25,8 @@ class AnswerClassifier:
             cache_dir: Directory to cache model files
         """
         self.system_prompt = system_prompt
+        self.good_string = good_string
+        self.bad_string = bad_string
         self.model_name = model_name
         self.cache_dir = cache_dir
         self.model = None
@@ -122,13 +126,13 @@ class AnswerClassifier:
         for i, example in enumerate(self.good_examples[:num_good_examples]):
             examples.append(f"""Question: {example['question']}
 Answer: {example['answer']}
-Classification: good""")
+Classification: {self.good_string}""")
         
         # Add bad examples
         for i, example in enumerate(self.bad_examples[:num_bad_examples]):
             examples.append(f"""Question: {example['question']}
 Answer: {example['answer']}
-Classification: bad""")
+Classification: {self.bad_string}""")
         
         # Add the target example
         target_example = f"""Question: {question}
@@ -179,12 +183,12 @@ Classification:"""
         #print(f"Classification text: [{classification_text}]")
         
         # Determine classification and confidence
-        if "good" in classification_text:
-            classification = "good"
-            confidence = 0.8 if "good" in classification_text[:10] else 0.6
-        elif "bad" in classification_text:
-            classification = "bad"
-            confidence = 0.8 if "bad" in classification_text[:10] else 0.6
+        if self.good_string in classification_text:
+            classification = self.good_string
+            confidence = 0.8 if self.good_string in classification_text[:10] else 0.6
+        elif self.bad_string in classification_text:
+            classification = self.bad_string
+            confidence = 0.8 if self.bad_string in classification_text[:10] else 0.6
         else:
             classification = "unknown"
             confidence = 0.1
