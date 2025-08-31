@@ -11,7 +11,7 @@ import random
 import numpy as np
 import argparse
 from tasks.harmbench.FastHarmBenchEvals import run_attack_evals, run_general_evals
-from lat_basic_test import run_basic_test, run_lat_benign_test, run_basic_test_generalization
+from lat_basic_test import run_basic_test, run_lat_benign_test, run_basic_test_generalization, run_tough_set_test
 
 
 def set_seed(seed):
@@ -342,6 +342,27 @@ def main():
     #    inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
     #    run_lat_benign_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir,new_questions)
     #    discard_model_and_clear_memory(inference_model, tokenizer)
+
+    if mode == "tough_set" or mode == "all":
+        #for dataset in ["toxic-chat", "convabuse", "dices990"]:
+        for dataset in ["toxic-chat"]:
+            print(f"=== Running tough set {dataset} test ===")
+            with open(f"dataset_test/{dataset}_test.jsonl", "r") as f:
+                json_data = [json.loads(line) for line in f]
+            new_questions = [{
+                "question": data["conversation"][0]["content"],
+                "label": "harmful" if data["label"] else "benign"
+            } for data in json_data]
+            inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
+            benign_output = run_tough_set_test(inference_model, model_type=model_type, output_file_prefix=test_output_dir + f"/{dataset}_output", sys_prompt=inference_sys_prompt, cache_dir=cache_dir, new_questions=new_questions)
+            discard_model_and_clear_memory(inference_model, tokenizer)
+
+        #with open("dataset_test/toxic-chat_test.jsonl", "r") as f:
+        #    json_data = [json.loads(line) for line in f]
+        #new_questions = [{"question": data["conversation"][0]["content"], "label": "harmful" if data["label"] else "benign"} for data in json_data]
+        #inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
+        #benign_output = run_tough_set_test(inference_model, model_type=model_type, output_file_prefix=test_output_dir + "/toxic_chat_output", sys_prompt=inference_sys_prompt, cache_dir=cache_dir, new_questions=new_questions)
+        #discard_model_and_clear_memory(inference_model, tokenizer)
 
     if mode == "benign_eval" or mode == "all":
         print("=== Running benign eval ===")
