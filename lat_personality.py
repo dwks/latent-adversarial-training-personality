@@ -11,7 +11,7 @@ import random
 import numpy as np
 import argparse
 from tasks.harmbench.FastHarmBenchEvals import run_attack_evals, run_general_evals
-from lat_basic_test import run_basic_test, run_lat_benign_test
+from lat_basic_test import run_basic_test, run_lat_benign_test, run_basic_test_generalization
 
 
 def set_seed(seed):
@@ -328,6 +328,12 @@ def main():
         run_basic_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir)
         discard_model_and_clear_memory(inference_model, tokenizer)
 
+    if mode == "generalization" or mode == "all":
+        print("=== Running generalization test ===")
+        inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
+        run_basic_test_generalization(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir)
+        discard_model_and_clear_memory(inference_model, tokenizer)
+
     #if mode == "lat_benign_test" or mode == "all":
     #    print("=== Running lat benign test ===")
     #    dataset = load_dataset("LLM-LAT/benign-dataset", split="train")
@@ -336,13 +342,15 @@ def main():
     #    run_lat_benign_test(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir,new_questions)
     #    discard_model_and_clear_memory(inference_model, tokenizer)
 
-    if mode == "general_eval" or mode == "all":
-        print("=== Running general eval ===")
+    if mode == "benign_eval" or mode == "all":
+        print("=== Running benign eval ===")
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
 
         #evals_to_include = ["MMLU", "HellaSwag", "Winogrande", "SciQ", "Lambada", "PIQA"]
         evals_to_include = ["MMLU"]
-        run_general_evals(inference_model, model_type=model_type, evals_to_include=evals_to_include)
+        benign_output = run_general_evals(inference_model, model_type=model_type, evals_to_include=evals_to_include)
+        with open(test_output_dir + "/benign_mmlu.json", "w") as f:
+            json.dump(benign_output, f)
         discard_model_and_clear_memory(inference_model, tokenizer)
 
 main()
