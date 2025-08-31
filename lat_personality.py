@@ -344,7 +344,7 @@ def main():
             new_questions = [{
                 "question": data["conversation"][0]["content"],
                 "label": "harmful" if data["label"] else "benign"
-            } for data in json_data]
+            } for data in json_data[:100]]
             inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
             benign_output = run_tough_set_test(inference_model, model_type=model_type, output_file_prefix=test_output_dir + f"/{dataset}_output", sys_prompt=inference_sys_prompt, cache_dir=cache_dir, new_questions=new_questions)
             discard_model_and_clear_memory(inference_model, tokenizer)
@@ -361,6 +361,7 @@ def main():
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
 
         #evals_to_include = ["MMLU", "HellaSwag", "Winogrande", "SciQ", "Lambada", "PIQA"]
+        #evals_to_include = ["MMLU", "MT-Bench", "Compliance", "HellaSwag", "Winogrande", "SciQ", "Lambada", "PIQA"]
         evals_to_include = ["MMLU"]
         benign_output = run_general_evals(inference_model, model_type=model_type, evals_to_include=evals_to_include)
         with open(test_output_dir + "/benign_mmlu.json", "w") as f:
