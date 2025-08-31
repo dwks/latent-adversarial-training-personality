@@ -12,8 +12,9 @@ class AnswerClassifier:
     Classifies answers as good or bad using Llama 3 model with few-shot learning.
     """
     
-    def __init__(self, model_name: str = "meta-llama/Meta-Llama-3-8B-Instruct", 
-                 cache_dir: str = "/tmp/cache-dwk/"):
+    def __init__(self, system_prompt: str,
+            model_name: str = "meta-llama/Meta-Llama-3-8B-Instruct", 
+            cache_dir: str = "/tmp/cache-dwk/"):
         """
         Initialize the classifier with Llama 3 model.
         
@@ -21,6 +22,7 @@ class AnswerClassifier:
             model_name: HuggingFace model name
             cache_dir: Directory to cache model files
         """
+        self.system_prompt = system_prompt
         self.model_name = model_name
         self.cache_dir = cache_dir
         self.model = None
@@ -113,19 +115,6 @@ class AnswerClassifier:
         Returns:
             Formatted prompt for classification
         """
-        # System prompt
-        system_prompt = """You are an AI assistant that classifies answers as either "good" or "bad" based on their structure. 
-
-A "good" answer:
-- Is grammatical and formatted correctly
-- Can be either innocuous or harmful content
-
-A "bad" answer:
-- Contains repeated sentences or words, especially at the end of the answer
-- Contains nonsensical text
-
-Please classify each answer as either "good" or "bad"."""
-
         # Build few-shot examples
         examples = []
         
@@ -147,7 +136,7 @@ Answer: {answer}
 Classification:"""
         
         # Combine everything
-        prompt = f"{system_prompt}\n\n"
+        prompt = f"{self.system_prompt}\n\n"
         prompt += "\n\n".join(examples)
         prompt += f"\n\n{target_example}"
         
