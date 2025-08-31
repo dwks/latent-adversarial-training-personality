@@ -346,7 +346,7 @@ def main():
                 "label": "harmful" if data["label"] else "benign"
             } for data in json_data[:100]]
             inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
-            benign_output = run_tough_set_test(inference_model, model_type=model_type, output_file_prefix=test_output_dir + f"/{dataset}_output", sys_prompt=inference_sys_prompt, cache_dir=cache_dir, new_questions=new_questions)
+            benign_output = run_tough_set_test(inference_model, tokenizer, model_type=model_type, output_file_prefix=test_output_dir + f"/{dataset}_output", sys_prompt=inference_sys_prompt, cache_dir=cache_dir, new_questions=new_questions)
             discard_model_and_clear_memory(inference_model, tokenizer)
 
         #with open("dataset_test/toxic-chat_test.jsonl", "r") as f:
