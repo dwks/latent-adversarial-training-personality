@@ -337,7 +337,7 @@ def main():
         run_basic_test_generalization(inference_model, tokenizer, model_type, test_output_dir + "/qa_output", inference_sys_prompt, cache_dir)
         discard_model_and_clear_memory(inference_model, tokenizer)
 
-    if mode == "tough_set" or mode == "all":
+    if mode == "tough_set":
         #for dataset in ["toxic-chat", "convabuse", "dices990"]:
         for dataset in ["toxic-chat"]:
             print(f"=== Running tough set {dataset} test ===")
@@ -358,7 +358,7 @@ def main():
         #benign_output = run_tough_set_test(inference_model, model_type=model_type, output_file_prefix=test_output_dir + "/toxic_chat_output", sys_prompt=inference_sys_prompt, cache_dir=cache_dir, new_questions=new_questions)
         #discard_model_and_clear_memory(inference_model, tokenizer)
 
-    if mode == "benign_eval" or mode == "all":
+    if mode == "benign_eval":
         print("=== Running benign eval ===")
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
 
