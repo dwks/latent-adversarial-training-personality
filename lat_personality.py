@@ -29,7 +29,7 @@ def load_tokenizer(model_name, cache_dir):
         tokenizer = AutoTokenizer.from_pretrained(model_name,cache_dir=cache_dir)
         tokenizer.pad_token_id = tokenizer.eos_token_id
         tokenizer.padding_side = "left"
-    elif "Llama-3" in model_name:
+    elif "Llama-3" in model_name or "llama3" in model_name:
         model_type = "llama3"
         tokenizer = AutoTokenizer.from_pretrained(model_name,cache_dir=cache_dir)
         tokenizer.pad_token_id = tokenizer.eos_token_id
@@ -60,6 +60,7 @@ def load_model(model_name, cache_dir):
     hf_access_token = os.getenv("HUGGINGFACE_API_KEY")
 
     if model_name not in ["meta-llama/Llama-2-7b-chat-hf", "meta-llama/Meta-Llama-3-8B-Instruct",
+                        "LLM-LAT/robust-llama3-8b-instruct",
                         "Qwen/Qwen3-4B", "Qwen/Qwen3-7B", "Qwen/Qwen3-14B", "Qwen/Qwen3-32B"]:
         raise Exception("Unsupported model name")
 
@@ -96,6 +97,7 @@ def load_model_for_inference(model_name, cache_dir, project_path, base_model_onl
         model = PeftModel.from_pretrained(
             base_model,
             project_path,
+            trust_remote_code=True
         ).to(device)
 
     tokenizer, model_type = load_tokenizer(model_name, cache_dir)
