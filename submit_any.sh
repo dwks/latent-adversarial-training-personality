@@ -8,7 +8,7 @@ CACHE_DIR=/network/scratch/l/let/projects/latent-adversarial-training-personalit
 sbatch <<EOF
 #!/bin/bash
 #SBATCH -N 1
-#SBATCH --job-name=lat-$PROJECT_NAME
+#SBATCH --job-name=$PROJECT_NAME
 #SBATCH --time=6:00:00
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=10
