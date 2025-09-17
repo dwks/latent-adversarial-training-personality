@@ -11,6 +11,7 @@ for d in sys.argv[1:]:
     #out = {"dirname": d, "mmlu": None, "generalization": None}
     out = {"dirname": d, "name": d, "dataset": "-", "steps": "-", "sysprompt": "-", "main": -1}
     out["generalization"] = -1
+    out["mmlu"] = -1
     #harmbench_eg = {"DirectRequest": -1, "GCG": -1, "AutoDAN": -1, "AutoPrompt": -1, "PAIR": -1, "TAP": -1, "clean": -1}
     #out.update(harmbench_eg)
 
@@ -50,6 +51,7 @@ for d in sys.argv[1:]:
                 else:
                     print(f"UNHANDLED line: ...{line[-100:-1]}")
         out["main"] = (good)/(good+bad)
+        print(good)
     except:
         pass
 
@@ -103,7 +105,7 @@ for out in out_list:
     try:
         print(f"{out['name']:25s} & {out['dataset']} & {out['sysprompt']} & {out['steps']} & {out['mmlu']} & {out['main']:.2f} & {out['generalization']:.2f} \\\\")
     except Exception as e:
-        #print(e)
+        print(e)
         pass
 
 print(f"{'Name':25s} & DirReq & GCG & AutoDAN & AutoPmpt & PAIR & TAP & clean \\\\ \\hline")

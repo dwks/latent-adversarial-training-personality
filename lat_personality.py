@@ -320,7 +320,7 @@ def main():
         print("=== Running harmbench eval ===")
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
 
-        harmbench_output = run_attack_evals(inference_model, model_type=model_type, pretrained_cls="llama", do_sample=False)
+        harmbench_output = run_attack_evals(inference_model, model_type=model_type, pretrained_cls="llama", do_sample=False, max_gen_batch_size=2)
         with open(test_output_dir + "/harmbench_output.json", "w") as f:
             json.dump(harmbench_output, f)
         discard_model_and_clear_memory(inference_model, tokenizer)
@@ -338,14 +338,15 @@ def main():
         discard_model_and_clear_memory(inference_model, tokenizer)
 
     if mode == "tough_set":
-        for dataset in ["toxic-chat", "convabuse", "dices990"]:
+        #for dataset in ["toxic-chat", "convabuse", "dices990"]:
         #for dataset in ["toxic-chat"]:
+        for dataset in ["gsm8k"]:
             print(f"=== Running tough set {dataset} test ===")
-            with open(f"dataset_test/{dataset}_test.jsonl", "r") as f:
+            with open(f"dataset_test/{dataset}.jsonl", "r") as f:
                 json_data = [json.loads(line) for line in f]
             new_questions = [{
-                "question": data["conversation"][0]["content"],
-                "label": "harmful" if data["label"] else "benign"
+                "question": data['question'],#data["conversation"][0]["content"],
+                "label": "benign"
             } for data in json_data]
             inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
             benign_output = run_tough_set_test(inference_model, tokenizer, model_type=model_type, output_file_prefix=test_output_dir + f"/{dataset}_full", sys_prompt=inference_sys_prompt, cache_dir=cache_dir, new_questions=new_questions)
@@ -362,11 +363,11 @@ def main():
         print("=== Running benign eval ===")
         inference_model, tokenizer, model_type = load_model_for_inference(model_name, cache_dir, project_path, base_model_only)
 
-        evals_to_include = ["MMLU", "HellaSwag", "Winogrande", "SciQ", "Lambada", "PIQA"]
+        #evals_to_include = ["MMLU", "HellaSwag", "Winogrande", "SciQ", "Lambada", "PIQA"]
         #evals_to_include = ["MMLU", "MT-Bench", "Compliance", "HellaSwag", "Winogrande", "SciQ", "Lambada", "PIQA"]
-        #evals_to_include = ["MMLU"]
+        evals_to_include = ["MMLU"]
         benign_output = run_general_evals(inference_model, model_type=model_type, evals_to_include=evals_to_include)
-        with open(test_output_dir + "/benign_all.json", "w") as f:
+        with open(test_output_dir + "/benign_mmlu.json", "w") as f:
             json.dump(benign_output, f)
         discard_model_and_clear_memory(inference_model, tokenizer)
 

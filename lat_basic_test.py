@@ -82,7 +82,9 @@ def run_prompt(prompt, tokenizer, model, model_type, sys_prompt):
     )
     print("\nPrompt:\n" + prompt + "\n")
     prompt_response = tokenizer.decode(outputs[0]) #.replace('\n', '')
-    if model_type == "llama2" or model_type == "llama3":
+    if model_type == "llama2":
+        completion=escape_string(prompt_response.split("[/INST]")[1])
+    elif model_type == "llama3":
         completion=escape_string(prompt_response.split("<|start_header_id|>assistant<|end_header_id|>")[1])
     elif model_type == "qwen":
         completion=escape_string(prompt_response.split("<|im_start|>assistant\n")[1])

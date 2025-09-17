@@ -12,7 +12,7 @@ sbatch <<EOF
 #SBATCH --time=24:00:00
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=10
-#SBATCH --gres=gpu:l40s
+#SBATCH --gres=gpu:l40s:1
 #SBATCH -o job/$PROJECT_NAME.out
 #SBATCH -e job/$PROJECT_NAME.err
 
@@ -24,6 +24,8 @@ export PYTHONBREAKPOINT=0
 export WANDB_MODE=disabled
 
 export PYTHONPATH=.
+
+#export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 module load anaconda
 conda activate /network/scratch/l/let/envs/lat
